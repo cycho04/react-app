@@ -7,7 +7,7 @@ export default class Buttons extends Component {
         return(
             <div>
                 <HWbutton />
-                <NHbutton />
+                <NHbutton assignHands={this.props.assignHands}/>
             </div> 
         );
     }

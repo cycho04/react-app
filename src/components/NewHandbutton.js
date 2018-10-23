@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
+import { newHand } from './utils.js'
+import {tilesSet} from './TilesSet';
+import Buttons from './Buttons';
 
 
-export default class Nhbutton extends Component {
-    handleClick() {
-        console.log('clicked');
-    }
+
+export default class NHbutton extends Component {
 
     render(){
         return(
             <span>
-                <button type="button" class="btn btn-dark" onClick={(e) => this.handleClick(e)}>New Hand</button>
+                <button type="button" className="btn btn-dark" onClick={this.props.assignHands}>New Hand</button>
             </span> 
         );
     }

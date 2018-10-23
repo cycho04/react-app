@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { test } from './utils.js';
+import { houseWay } from './utils.js';
 
 export default class HWbutton extends Component {
     render(){
         return(
             <span>
-                <button type="button" class="btn btn-dark" onClick={test}>House-way</button>
+                <button type="button" className="btn btn-dark" onClick={houseWay}>House-way</button>
             </span> 
         );
     }

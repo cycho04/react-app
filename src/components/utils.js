@@ -1,8 +1,19 @@
 //utility functions
 //generatesf new hand
 
-export function test() {
-    console.log('testing');
+export function houseWay() {
+    console.log('House way');
+}
+export function newHand(element, index, arr) {
+    let count = Math.floor(Math.random()* arr.length); 
+    return arr[count];
+	// //changes the src to a random tiles src from imgs folder  
+	// cards[i].src = tilesSet[index].img;
+	// hand[i] = tilesSet[index];
+	// //used to reset hand array after separating into low and high.
+	// masterHand.push(hand[i]);
+	// // splices the selected array, so there won't be the same 4 tiles. always a new tile.
+    // tilesSet.splice(index, 1);    
 }
 
 //
@@ -11,18 +22,18 @@ export function test() {
 //converting to React Project.
 //============================
 //
-export function newHand(deck) {
-	// for(let i = 0; i < 4; i++){
-	// 	let index = Math.floor(Math.random()* tilesSet.length); 
-	// 	//changes the src to a random tiles src from imgs folder  
-	// 	cards[i].src = tilesSet[index].img;
-	// 	hand[i] = tilesSet[index];
-	// 	//used to reset hand array after separating into low and high.
-	// 	masterHand.push(hand[i]);
-	// 	// splices the selected array, so there won't be the same 4 tiles. always a new tile.
-	// 	tilesSet.splice(index, 1);
-	// }	
-}
+// export function newHand(deck) {
+// 	for(let i = 0; i < 4; i++){
+// 		let index = Math.floor(Math.random()* tilesSet.length); 
+// 		//changes the src to a random tiles src from imgs folder  
+// 		cards[i].src = tilesSet[index].img;
+// 		hand[i] = tilesSet[index];
+// 		//used to reset hand array after separating into low and high.
+// 		masterHand.push(hand[i]);
+// 		// splices the selected array, so there won't be the same 4 tiles. always a new tile.
+// 		tilesSet.splice(index, 1);
+// 	}	
+// }
 
 // //disables hw btn
 // const disable = (btn) => {

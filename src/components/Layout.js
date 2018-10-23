@@ -5,53 +5,57 @@ import Footer from "./Footer";
 import Header from "./Header";
 import logo from '../logo.svg'; //add my own logo later
 import {tilesSet} from './TilesSet';
-import TileImg from './imgs/Dey1.jpeg'
 import '../Layout.css';
 import TilesHand from './Hand.js';
 import Buttons from './Buttons';
 
 
 export default class Layout extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      name: "Chris",
-      tile: tilesSet[0].img,
-      hand1: "",
-      hand2: "",
-      hand3: "",
-      hand4: ""
+      hand1: '',
+      hand2: '',
+      hand3: '',
+      hand4: ''
     };
   }
 
-  changeName(name) {
-    this.setState({name});
-  }
 
+  assignHands() {
+    let tempArr = ["", "", "", ""];
+    let counter = "";
+    let newSet = [];
+    let newArr = tempArr.map((el) => {
+      newSet = tilesSet.filter((tile) => tile !== tilesSet[counter]);
+      counter = Math.floor(Math.random()* newSet.length);
+      console.log(counter);
+      return newSet[counter];
+    })
+    console.log(newArr);
+    
 
-  newHand(deck) {
-    deck.forEach(element => {
-      let index = Math.floor(Math.random()* deck.length); 
-      //changes the src to a random tiles src from imgs folder  
-      // cards[i].src = deck[index].img;
-      this.setState({hand1: deck[index]});
-      //used to reset hand array after separating into low and high.
-      // masterHand.push(hand[i]);
-      // splices the selected array, so there won't be the same 4 tiles. always a new tile.
-      deck.splice(index, 1);
-    });
-
+    this.setState((state) => {
+      return {
+        hand1: newArr[0],
+        hand2: newArr[1],
+        hand3: newArr[2],
+        hand4: newArr[3]
+      }; 
+    })
   }
 
   render() {
     return (
       <div>
-        <Header changeName={this.changeName.bind(this)} name={this.state.name}/>
-        <TilesHand />
-        <Buttons />
+        <TilesHand 
+          img1={this.state.hand1.img}
+          img2={this.state.hand2.img} 
+          img3={this.state.hand3.img} 
+          img4={this.state.hand4.img}
+        />
+        <Buttons assignHands={this.assignHands.bind(this)}/>
         <Footer />
-        {this.newHand(tilesSet)}
-        <p>{this.state.hand1.img}</p>
       </div>
     );
   }
