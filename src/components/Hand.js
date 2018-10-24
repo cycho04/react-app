@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 
 export default class TilesHand extends Component {
-    
+
     render(){
         return(
             <div>

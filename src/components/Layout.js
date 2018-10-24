@@ -26,6 +26,7 @@ export default class Layout extends Component {
     let tempArr = ["", "", "", ""];
     let counter = "";
     let newSet = [];
+    //loops through and assigns random tile from deck
     let newArr = tempArr.map((el) => {
       newSet = tilesSet.filter((tile) => tile !== tilesSet[counter]);
       counter = Math.floor(Math.random()* newSet.length);
@@ -34,7 +35,6 @@ export default class Layout extends Component {
     })
     console.log(newArr);
     
-
     this.setState((state) => {
       return {
         hand1: newArr[0],
