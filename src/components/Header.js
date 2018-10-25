@@ -13,7 +13,6 @@ export default class Header extends Component {
             <Title name={this.props.name}/>
             <input onChange={this.handleChange.bind(this)}/> 
         </div>
-        
       );
     }
   }

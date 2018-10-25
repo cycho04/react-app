@@ -24,12 +24,16 @@ export default class Layout extends Component {
 
   //generates new hand and updates them to state.
   assignHands() {
-    let tempArr = ["", "", "", ""]; //filler array
-    let testArr = tilesSet.filter((x) => x); //filler array. tilesSet is untouched.
+    let tempArr = [0, 0, 0, 0]; //filler array
+    let testArr = tilesSet; //filler array. tilesSet is untouched.
+    console.log(testArr);
+    console.log(tilesSet);
     //loops through and assigns random tile from deck
     let newArr = tempArr.map((x) => {
+      console.log(tempArr.length);
       let counter = Math.floor(Math.random()* (testArr.length - 1));
       testArr.splice(counter, 1);
+
       return testArr[counter];
     })
     //updates state
