@@ -13,6 +13,7 @@ import Buttons from './Buttons';
 export default class Layout extends Component {
   constructor(props) {
     super(props);
+    //each hand holds a randomly generated tile object from { tilesSet }
     this.state = {
       hand1: '',
       hand2: '',
@@ -21,20 +22,17 @@ export default class Layout extends Component {
     };
   }
 
-
+  //generates new hand and updates them to state.
   assignHands() {
-    let tempArr = ["", "", "", ""];
-    let counter = "";
-    let newSet = [];
+    let tempArr = ["", "", "", ""]; //filler array
+    let testArr = tilesSet.filter((x) => x); //filler array. tilesSet is untouched.
     //loops through and assigns random tile from deck
-    let newArr = tempArr.map((el) => {
-      newSet = tilesSet.filter((tile) => tile !== tilesSet[counter]);
-      counter = Math.floor(Math.random()* newSet.length);
-      console.log(counter);
-      return newSet[counter];
+    let newArr = tempArr.map((x) => {
+      let counter = Math.floor(Math.random()* (testArr.length - 1));
+      testArr.splice(counter, 1);
+      return testArr[counter];
     })
-    console.log(newArr);
-    
+    //updates state
     this.setState((state) => {
       return {
         hand1: newArr[0],
