@@ -25,7 +25,7 @@ export default class Layout extends Component {
   //generates new hand and updates them to state.
   assignHands() {
     let tempArr = [0, 0, 0, 0]; //filler array
-    let testArr = tilesSet; //filler array. tilesSet is untouched.
+    let testArr = tilesSet.slice(); //filler array. tilesSet is untouched.
     console.log(testArr);
     console.log(tilesSet);
     //loops through and assigns random tile from deck
