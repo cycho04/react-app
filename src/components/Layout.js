@@ -25,16 +25,14 @@ export default class Layout extends Component {
   //generates new hand and updates them to state.
   assignHands() {
     let tempArr = [0, 0, 0, 0]; //filler array
-    let testArr = tilesSet.slice(); //filler array. tilesSet is untouched.
-    console.log(testArr);
-    console.log(tilesSet);
+    let testArr = tilesSet.slice(); //filler array. tilesSet is untouched
     //loops through and assigns random tile from deck
     let newArr = tempArr.map((x) => {
-      console.log(tempArr.length);
       let counter = Math.floor(Math.random()* (testArr.length - 1));
+      //used to hold the selected obj. needed since splice changes arr.length and we splice/display the different indexes.
+      let dummyArr = testArr[counter];
       testArr.splice(counter, 1);
-
-      return testArr[counter];
+      return dummyArr;
     })
     //updates state
     this.setState((state) => {
