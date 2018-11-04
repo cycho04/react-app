@@ -1,5 +1,20 @@
 /*layout styling*/
+
+.fade {
+    transition: 1s ease-in-out;
+}
 img {
-    height: 150px;
-    width: 150px;
+    height: 230px;
+    width: 160px;
+    margin: 1.0em;
+}
+
+.cards {
+    transition: 1s;
+}
+
+.cards2 {
+    height: 100px;
+    transition: 1s;
+    opacity: 0;
 }
