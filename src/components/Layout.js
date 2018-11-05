@@ -4,10 +4,9 @@ import {tilesSet} from './TilesSet';
 import '../Layout.css';
 import { houseWay } from './utils.js';
 
-
-
 export default class Layout extends Component {
   constructor(props) {
+    console.log("starting up");
     super(props);
     this.assignHands = this.assignHands.bind(this);
     //each hand holds a randomly generated tile object from { tilesSet }
@@ -16,9 +15,12 @@ export default class Layout extends Component {
       hand2: '',
       hand3: '',
       hand4: '',
-      cards: false
+      cards: false,
+      hand: []
     };
     this.handleToggle = this.handleToggle.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleHW = this.handleHW.bind(this);
   }
 
   //generates new hand and updates them to state.
@@ -38,30 +40,58 @@ export default class Layout extends Component {
         hand1: newArr[0],
         hand2: newArr[1],
         hand3: newArr[2],
-        hand4: newArr[3]
+        hand4: newArr[3],
     })
   }
-
+  //toggle effect.
   handleToggle() {
     this.setState({
         cards: !this.state.cards
     })
-}
+  }
 
+  handleClick = () => {
+    this.assignHands();
+  }
+
+  componentDidMount(){
+    console.log("mounted");
+  }
+  shouldComponentUpdate(x, y){
+    console.log("updating...");
+    if(this.state.hand !== y.hand1){
+      this.setState({
+      hand: y.hand1
+      })
+      console.log(this.state.hand1);
+    }
+    return true;
+  }
+  componentDidUpdate(x, y){
+    console.log("updated");
+
+  }
+
+  componentWillUnmount(){
+    console.log("unmounting");
+  }
+
+  handleHW(){
+    console.log(this.state.hand);
+  }
 
   render() {
     return (
       <div>
         <div>
-          <img onClick={this.handleToggle} className={this.state.cards ? 'cards' : 'cards2'} src={this.state.hand1.img} alt={this.state.hand1.img}></img>
-          <img className={this.state.cards ? 'cards' : 'cards2'} src={this.state.hand2.img} alt={this.state.hand2.img}></img>
-          <img className={this.state.cards ? 'cards' : 'cards2'} src={this.state.hand3.img} alt={this.state.hand3.img}></img>
-          <img className={this.state.cards ? 'cards' : 'cards2'} src={this.state.hand4.img} alt={this.state.hand4.img}></img>
+          <img className={this.state.cards ? 'cards2' : 'cards'} src={this.state.hand1.img} alt={this.state.hand1.img}></img>
+          <img className={this.state.cards ? 'cards2' : 'cards'} src={this.state.hand2.img} alt={this.state.hand2.img}></img>
+          <img className={this.state.cards ? 'cards2' : 'cards'} src={this.state.hand3.img} alt={this.state.hand3.img}></img>
+          <img className={this.state.cards ? 'cards2' : 'cards'} src={this.state.hand4.img} alt={this.state.hand4.img}></img>
         </div> 
         
-        
-        <button type="button" className="btn btn-dark" onClick={houseWay}>House-way</button>
-        <button type="button" className="btn btn-dark" onClick={this.assignHands}>New Hand</button>
+        <button type="button" className="btn btn-dark" onClick={this.handleHW}>House-way</button>
+        <button type="button" className="btn btn-dark" onClick={this.handleClick}>New Hand</button>
       </div>
     );
   }
