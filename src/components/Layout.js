@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {tilesSet} from './TilesSet';
 import '../Layout.css';
 import { houseWay } from './utils.js';
+import Hands from './Hands'
 
 export default class Layout extends Component {
   constructor(props) {
@@ -83,6 +84,7 @@ export default class Layout extends Component {
   render() {
     return (
       <div>
+        <Hands test="testing"/>
         <div>
           <img className={this.state.cards ? 'cards2' : 'cards'} src={this.state.hand1.img} alt={this.state.hand1.img}></img>
           <img className={this.state.cards ? 'cards2' : 'cards'} src={this.state.hand2.img} alt={this.state.hand2.img}></img>
