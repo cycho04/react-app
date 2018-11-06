@@ -1,0 +1,9 @@
+.cards {
+    transition: 1s;
+}
+
+.cards2 {
+    height: 100px;
+    transition: 1s;
+    opacity: 0;
+}
