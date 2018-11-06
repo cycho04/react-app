@@ -11,9 +11,11 @@ export default class Layout extends Component {
     super(props);
     //each hand holds a randomly generated tile object from { tilesSet }
     this.state = {
+      //needs empty spots for when rendering on <Hands hand1={this.state.hand[0].img} /> else error since hand[0] doesnt exist.
       hand: ["", "", "", ""],
       cards: false
     };
+    //binding in the constructor is recommended for performance.
     this.handleToggle = this.handleToggle.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleHW = this.handleHW.bind(this);
@@ -37,6 +39,7 @@ export default class Layout extends Component {
         hand: [newArr[0], newArr[1], newArr[2], newArr[3]]
     })
   }
+
   //toggle effect.
   handleToggle() {
     this.setState({
@@ -48,7 +51,6 @@ export default class Layout extends Component {
     this.assignHands();
   }
 
- 
   handleHW(){
     console.log(this.state.hand);
   }
@@ -67,7 +69,9 @@ export default class Layout extends Component {
           type="button" 
           className="btn btn-dark" 
           handleClick={this.handleClick} 
-          handleHW={this.handleHW}/>
+          handleHW={this.handleHW}
+          hand={this.state.hand}
+        />
       </div>
     );
   }
