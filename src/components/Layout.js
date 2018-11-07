@@ -14,7 +14,8 @@ export default class Layout extends Component {
     this.state = {
       //needs empty spots for when rendering on <Hands hand1={this.state.hand[0].img} /> else error since hand[0] doesnt exist.
       hand: ["", "", "", ""],
-      cards: false
+      cards: false,
+      indexOfPair: 0
     };
     //binding in the constructor is recommended for performance.
     this.handleToggle = this.handleToggle.bind(this);
@@ -22,8 +23,35 @@ export default class Layout extends Component {
     this.handleHW = this.handleHW.bind(this);
     this.assignHands = this.assignHands.bind(this);
     this.baccaratCount = this.baccaratCount.bind(this);
+    this.checkPair = this.checkPair.bind(this);
   }
 
+  //check for pairs
+  checkPair(hand) {
+    //loops through each hand
+    for(let i = 0; i < hand.length; i++) {
+      //compares i to ii
+      for (let ii = 0; ii < hand.length; ii++) {
+        // if there is a pair and its not comparing to itself.
+        if (hand[i].pair === hand[ii].pair && i !== ii) {
+          //if we split this pair...
+          if (hand[i].split !== false) {
+            // split(i, ii);
+            console.log("split");
+          }
+          else { 
+            // dontSplit(i, ii);
+            console.log("don't split");
+          }
+          this.setState({
+            indexOfPair: ii
+          })
+          return true;
+        }
+      }
+    }
+    return false; //no pairs
+  }
 
   baccaratCount = (n, m) => {
     let number = n + m;
@@ -63,6 +91,7 @@ export default class Layout extends Component {
 
   handleClick = () => {
     this.assignHands();
+    this.checkPair(this.state.hand);
   }
 
   handleHW(){
@@ -72,7 +101,7 @@ export default class Layout extends Component {
   render() {
     return (
       <div>
-        <h2>{this.baccaratCount(this.state.hand[0].val, this.state.hand[1].val)} / {this.baccaratCount(this.state.hand[2].val, this.state.hand[3].val)}</h2>
+        <h1>{this.baccaratCount(this.state.hand[0].val, this.state.hand[1].val)} / {this.baccaratCount(this.state.hand[2].val, this.state.hand[3].val)}</h1>
         <Hands 
           cards={this.state.cards}
           hand1={this.state.hand[0].img}
@@ -88,6 +117,7 @@ export default class Layout extends Component {
           hand={this.state.hand}
           baccaratCount={this.baccaratCount}
         />
+        <h2>Pair: {this.state.indexOfPair}</h2>
       </div>
     );
   }
