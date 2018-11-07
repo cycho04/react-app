@@ -5,6 +5,7 @@ import '../Layout.css';
 import Hands from './Hands'
 import Buttons from './Buttons';
 
+
 export default class Layout extends Component {
   constructor(props) {
     console.log("starting up");
@@ -20,6 +21,19 @@ export default class Layout extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleHW = this.handleHW.bind(this);
     this.assignHands = this.assignHands.bind(this);
+    this.baccaratCount = this.baccaratCount.bind(this);
+  }
+
+
+  baccaratCount = (n, m) => {
+    let number = n + m;
+    if (number >= 10 && number < 20){
+      if (number >= 20) {
+        return number -= 20;
+      }
+        return number -= 10;
+    }
+      return number;
   }
 
   //generates new hand and updates them to state.
@@ -71,6 +85,7 @@ export default class Layout extends Component {
           handleClick={this.handleClick} 
           handleHW={this.handleHW}
           hand={this.state.hand}
+          baccaratCount={this.baccaratCount}
         />
       </div>
     );

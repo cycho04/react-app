@@ -1,9 +1,10 @@
 //utility functions
 //generatesf new hand
 
-export function houseWay() {
-    console.log('House way');
+const houseWay = (x) => {
+    console.log(x);
 }
+export default houseWay;
 
 //
 //============================
