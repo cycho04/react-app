@@ -72,6 +72,7 @@ export default class Layout extends Component {
   render() {
     return (
       <div>
+        <h2>{this.baccaratCount(this.state.hand[0].val, this.state.hand[1].val)} / {this.baccaratCount(this.state.hand[2].val, this.state.hand[3].val)}</h2>
         <Hands 
           cards={this.state.cards}
           hand1={this.state.hand[0].img}
