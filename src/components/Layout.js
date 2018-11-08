@@ -12,10 +12,10 @@ export default class Layout extends Component {
     super(props);
     //each hand holds a randomly generated tile object from { tilesSet }
     this.state = {
-      //needs empty spots for when rendering on <Hands hand1={this.state.hand[0].img} /> else error since hand[0] doesnt exist.
+      //needs empty spots for when (mounting) <Hands hand1={this.state.hand[0].img} /> else error since hand[0] doesnt exist.
       hand: ["", "", "", ""],
       cards: false,
-      indexOfPair: 0
+      pairName: ''
     };
     //binding in the constructor is recommended for performance.
     this.handleToggle = this.handleToggle.bind(this);
@@ -24,33 +24,6 @@ export default class Layout extends Component {
     this.assignHands = this.assignHands.bind(this);
     this.baccaratCount = this.baccaratCount.bind(this);
     this.checkPair = this.checkPair.bind(this);
-  }
-
-  //check for pairs
-  checkPair(hand) {
-    //loops through each hand
-    for(let i = 0; i < hand.length; i++) {
-      //compares i to ii
-      for (let ii = 0; ii < hand.length; ii++) {
-        // if there is a pair and its not comparing to itself.
-        if (hand[i].pair === hand[ii].pair && i !== ii) {
-          //if we split this pair...
-          if (hand[i].split !== false) {
-            // split(i, ii);
-            console.log("split");
-          }
-          else { 
-            // dontSplit(i, ii);
-            console.log("don't split");
-          }
-          this.setState({
-            indexOfPair: ii
-          })
-          return true;
-        }
-      }
-    }
-    return false; //no pairs
   }
 
   baccaratCount = (n, m) => {
@@ -62,6 +35,35 @@ export default class Layout extends Component {
         return number -= 10;
     }
       return number;
+  }
+
+  //checks for pairs. takes an array as arg
+  checkPair(hand){
+    for(let i = 0; i < hand.length; i++) {
+      for (let ii = 0; ii < hand.length; ii++) {
+        // if there is a pair and it is not comparing to itself.
+        if (hand[i].pair === hand[ii].pair && i !== ii) {
+          let pairTL = hand.filter((x) => x.rank === hand[i].rank); //array of the pair tiles
+          let otherTL = hand.filter((x) => x.rank !== hand[i].rank); // array of the other 2 tiles. use these two to move tiles accordingly
+          //if we split this pair...
+          if (hand[i].split !== false) {
+            console.log("split pairs")
+            let tempArr = [pairTL[0], otherTL[0], pairTL[1], otherTL[1]]; // works, but looks messy
+            this.setState(() => ({hand: tempArr, pairName: pairTL[0].name}))
+            return true;
+          }
+          //don't split
+          else {
+            console.log("don't split");
+            let copyArr = otherTL.concat(pairTL); //concats the two small arrays together and renders.
+            this.setState(() => ({hand: copyArr, pairName: pairTL[0].name}))
+            return true;
+          }
+        }
+      }
+    }
+    console.log("no pairs");
+    return false; // no pairs
   }
 
   //generates new hand and updates them to state.
@@ -84,18 +86,15 @@ export default class Layout extends Component {
 
   //toggle effect.
   handleToggle() {
-    this.setState({
-        cards: !this.state.cards
-    })
+    this.setState(() => ({cards: !this.state.cards}));
   }
 
   handleClick = () => {
-    this.assignHands();
-    this.checkPair(this.state.hand);
+    this.assignHands();  
   }
 
   handleHW(){
-    console.log(this.state.hand);
+    this.checkPair(this.state.hand);
   }
 
   render() {
@@ -117,7 +116,7 @@ export default class Layout extends Component {
           hand={this.state.hand}
           baccaratCount={this.baccaratCount}
         />
-        <h2>Pair: {this.state.indexOfPair}</h2>
+        <h2>Pair Name: {this.state.pairName}</h2>
       </div>
     );
   }

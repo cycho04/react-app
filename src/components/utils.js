@@ -1,11 +1,6 @@
 //utility functions
 //generatesf new hand
 
-const houseWay = (x) => {
-    console.log(x);
-}
-export default houseWay;
-
 //
 //============================
 //copied from PG-tiles repo/github.
@@ -30,19 +25,6 @@ export default houseWay;
 // 	return false;
 // }
 
-// //baccarat counting
-// const baccaratCount = (n, m) => {
-// 	let number = n + m;
-// 	if (number >= 10 && number < 20){
-// 		return number -= 10;
-// 	} 
-// 	else if (number >= 20) {
-// 		return number -= 20;
-// 	} 
-// 	else {
-// 		return number;
-// 	}
-// }
 
 // //geejoon in progess
 // function whichGJ(index) {
