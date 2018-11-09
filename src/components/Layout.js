@@ -47,14 +47,12 @@ export default class Layout extends Component {
           let otherTL = hand.filter((x) => x.rank !== hand[i].rank); // array of the other 2 tiles. use these two to move tiles accordingly
           //if we split this pair...
           if (hand[i].split !== false) {
-            console.log("split pairs")
             let tempArr = [pairTL[0], otherTL[0], pairTL[1], otherTL[1]]; // works, but looks messy
             this.setState(() => ({hand: tempArr, pairName: pairTL[0].name}))
             return true;
           }
           //don't split
           else {
-            console.log("don't split");
             let copyArr = otherTL.concat(pairTL); //concats the two small arrays together and renders.
             this.setState(() => ({hand: copyArr, pairName: pairTL[0].name}))
             return true;
@@ -62,7 +60,6 @@ export default class Layout extends Component {
         }
       }
     }
-    console.log("no pairs");
     return false; // no pairs
   }
 
@@ -94,7 +91,9 @@ export default class Layout extends Component {
   }
 
   handleHW(){
-    this.checkPair(this.state.hand);
+    if(!this.checkPair(this.state.hand)){
+      console.log("go to teen-dey rule");
+    }
   }
 
   render() {
