@@ -63,28 +63,6 @@
 // 	return false;
 // }
 
-// //check for pairs
-// function checkPair() {
-// 	//loops through each hand
-// 	for(let i = 0; i < hand.length; i++) {
-// 		//compares i to ii
-// 		for (let ii = 0; ii < hand.length; ii++) {
-// 			// if there is a pair and its not comparing to itself.
-// 			if (hand[i].pair === hand[ii].pair && i != ii) {
-// 				//if we split this pair...
-// 				if (hand[i].split != false) {
-// 					split(i, ii);
-// 					return true;
-// 				}
-// 				else { 
-// 					dontSplit(i, ii);
-// 					return true;
-// 				}
-// 			}
-// 		}
-// 	}
-// 	return false; //no pairs
-// }
 
 // const intoHighLow = (n, n2) => {
 // 	//pushes the pairs into high[].
@@ -102,12 +80,6 @@
 // 			low.push(hand[1]);
 // 		}
 // 	}
-// 	return true;
-// }
-
-// function dontSplit(n, n2) {
-// 	intoHighLow(n, n2)
-// 	moveTiles();
 // 	return true;
 // }
 
@@ -182,35 +154,9 @@
 // 	}
 // }
 
-// function checkTeen() {
-// 	return false;
-// }
 
-// const ascendingOrder = () => {
-// 	//switch placeholders
-// 	let switch1 = "";
-// 	let switch2 = "";
-// 	//starts from [0] and applies the switch 4 times(first forloop does)
-// 	for(let i = 0; i < hand.length; i++){
-// 		for(let ii = 0; ii < hand.length; ii++) {
-// 			//if it is not the last tile
-// 			if(ii != hand.length - 1) {
-// 				//compares the current tile its neighbor. if the current is bigger, switch with neighbor.
-// 				if(hand[ii].realValue > hand[ii+1].realValue){
-// 					switch1 = hand[ii];
-// 					switch2 = hand[ii+1];
-// 					hand[ii] = switch2;
-// 					hand[ii+1] = switch1;
-// 				}
-// 			}
-// 		}
-// 	}
-// }
 
-// function hiLow(){
-// 	ascendingOrder();
-// 	moveTiles("hilow");
-// }
+
 
 // //babies rule
 // function checkBB(){
@@ -251,42 +197,4 @@
 // 		return true;
 // 	}
 // 	//need 3 babies rule
-// }
-
-// function reset() {
-// 	//resets tilesSet from master array. Even after splice, it now has full deck again.
-// 	tilesSet = [];
-// 	for (let i = 0; i < master.length; i++) {
-// 		tilesSet.push(master[i]);
-// 	}
-// 	low = [];
-// 	high = [];
-// }
-
-// //moves the tiles visually on the webpage
-// function moveTiles(x) {
-// 	if (x === "split"){
-// 		cards[0].src = low[0].img;
-// 		cards[1].src = high[0].img;
-// 		cards[2].src = low[1].img;
-// 		cards[3].src = high[1].img;
-// 	}
-// 	else if (x === "hilow") {
-// 		cards[0].src = hand[0].img;
-// 		cards[1].src = hand[3].img;
-// 		cards[2].src = hand[1].img;
-// 		cards[3].src = hand[2].img;
-// 	} 
-// 	else if (x === "asIs") {
-// 		cards[0].src = hand[0].img;
-// 		cards[1].src = hand[1].img;
-// 		cards[2].src = hand[2].img;
-// 		cards[3].src = hand[3].img;
-// 	} 
-// 	else {
-// 	cards[0].src = low[0].img;
-// 	cards[1].src = low[1].img;
-// 	cards[2].src = high[0].img;
-// 	cards[3].src = high[1].img;
-// 	}
-// }
+// 
