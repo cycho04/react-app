@@ -17,7 +17,8 @@ export default class Layout extends Component {
       cards: false,
       pairName: '',
       rule: '',
-      show: false
+      show: false,
+      history: []
     };
     //binding in the constructor is recommended for performance.
     this.handleToggle = this.handleToggle.bind(this);
@@ -154,7 +155,7 @@ export default class Layout extends Component {
       return dummyArr;
     })
     //updates state
-    this.setState({hand: [newArr[0], newArr[1], newArr[2], newArr[3]], show: true})
+    this.setState({hand: [newArr[0], newArr[1], newArr[2], newArr[3]], show: true, history: [...this.state.history, [...newArr]]})
   }
 
   //toggle effect.
@@ -164,6 +165,13 @@ export default class Layout extends Component {
 
   handleClick = () => {
     this.assignHands();  
+    //works, but not 100% properly. the changes are one step behind. fix async.
+    //check to see the history length. max set @ 20
+    if(this.state.history.length >= 10){
+      let temp = this.state.history.slice();
+      temp.shift();
+      this.setState(() => ({history: temp}))
+    }
   }
 
   //House Way
@@ -200,6 +208,9 @@ export default class Layout extends Component {
         <h2>Value of tiles: {this.state.hand[0].val ? this.state.hand[0].val : "0"} - {this.state.hand[1].val ? this.state.hand[1].val : "0"} - {this.state.hand[2].val ? this.state.hand[2].val : "0"} - {this.state.hand[3].val ? this.state.hand[3].val : "0"}</h2>
         <h2>Pair Name: {this.state.pairName}</h2>
         <h2>Rule: {this.state.rule}</h2>
+        <h2>
+          History: <div>{this.state.history.map((el) => <li key={Math.random()}>{el.map((ele) => ele.name+ '--')}</li>)}</div>
+          </h2>
 
       </div>
     );

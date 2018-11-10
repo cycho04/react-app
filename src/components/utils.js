@@ -64,24 +64,6 @@
 // }
 
 
-// const intoHighLow = (n, n2) => {
-// 	//pushes the pairs into high[].
-// 	high.push(hand[n]);
-// 	high.push(hand[n2]);
-// 	//deletes one
-// 	hand.splice(n, 1);
-// 	//search for 2nd pair's index since hand.length changes after splice above.
-// 	for (let i = 0; i < hand.length; i++){
-// 		if (hand[i].pair === high[0].pair){
-// 			//deletes the second pair
-// 			hand.splice(i, 1);
-// 			//sends remaining tile pairs into a new array low.
-// 			low.push(hand[0]);
-// 			low.push(hand[1]);
-// 		}
-// 	}
-// 	return true;
-// }
 
 // function split(n, n2) {
 // 	//separates hand into high and low.
