@@ -16,7 +16,8 @@ export default class Layout extends Component {
       hand: ["", "", "", ""],
       cards: false,
       pairName: '',
-      rule: ''
+      rule: '',
+      show: false
     };
     //binding in the constructor is recommended for performance.
     this.handleToggle = this.handleToggle.bind(this);
@@ -31,14 +32,28 @@ export default class Layout extends Component {
   }
 
   baccaratCount = (n, m) => {
-    let number = n + m;
-    if (number >= 10 && number < 20){
+    //recognizing gong , wong , or pair...
+    let number = n.val + m.val;
+    if(n.rank === m.rank){
+      return 'Pair';
+    }
+    else if (n.val === 2 || m.val === 2){
+      if (number === 10){
+        return "Gong";
+      }
+      else if (number === 11){
+        return 'Wong';
+      }
+    }
+    //regular baccarat counting...
+    else if (number >= 10 && number < 20){
       if (number >= 20) {
         return number -= 20;
       }
         return number -= 10;
     }
-      return number;
+    //value is under 10, return the sum.
+    return number;
   }
 
   //checks for pairs. takes an array as arg
@@ -71,20 +86,29 @@ export default class Layout extends Component {
   checkTeenDey(hand){
     //true if we have teen or dey
     let teenDey = hand.find((el) => el.val === 2) !== undefined;
-    //if we have teen or dey...
+    //if true...
     if(teenDey){
       let tile = hand.find((el) => el.val === 2); // teen/ dey object
       let tempArr = hand.filter((el) => el.name !== tile.name); //new arr without marked teen/dey. arr.length = 3
       let secondTeenDey = tempArr.find((el) => el.val === 2); //second teen/dey (not pair)
-
+      let seven = tempArr.find((el) => el.val === 7);
+      let eight = tempArr.find((el) => el.val === 8);
+      let nine = tempArr.find((el) => el.val === 9);
       //if there is a second teen/dey
-      if (secondTeenDey !== undefined){
+      if (secondTeenDey){
         let twoArr = tempArr.filter((el) => el.name !== secondTeenDey.name);
         console.log(tile, secondTeenDey, twoArr);
         return true;
       }
       //look for 7,8,9
-      else{
+      else if (seven){
+        console.log (seven);
+        return true;   
+      }
+      else if(eight){
+        return true;
+      }
+      else if(nine){
         return true;
       }
     }
@@ -130,9 +154,7 @@ export default class Layout extends Component {
       return dummyArr;
     })
     //updates state
-    this.setState({
-        hand: [newArr[0], newArr[1], newArr[2], newArr[3]]
-    })
+    this.setState({hand: [newArr[0], newArr[1], newArr[2], newArr[3]], show: true})
   }
 
   //toggle effect.
@@ -144,8 +166,8 @@ export default class Layout extends Component {
     this.assignHands();  
   }
 
+  //House Way
   handleHW(){
-    //checks for pairs
     if(!this.checkPair(this.state.hand)){
       if(!this.checkTeenDey(this.state.hand)){
         this.hiLowMiddle(this.state.hand);
@@ -156,8 +178,7 @@ export default class Layout extends Component {
   render() {
     return (
       <div>
-
-        <h1>{this.baccaratCount(this.state.hand[0].val, this.state.hand[1].val)} / {this.baccaratCount(this.state.hand[2].val, this.state.hand[3].val)}</h1>
+        {this.state.show ? <h1>{this.baccaratCount(this.state.hand[0], this.state.hand[1]) + '/' + this.baccaratCount(this.state.hand[2], this.state.hand[3])}</h1> : <h1>Press New Hand to Start</h1>}
         
         <Hands 
           cards={this.state.cards}

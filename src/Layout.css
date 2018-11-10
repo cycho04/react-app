@@ -1,7 +1,7 @@
 /*layout styling*/
 
 .fade {
-    transition: 1s ease-in-out;
+    transition: 1s;
 }
 img {
     height: 230px;
