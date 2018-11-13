@@ -4,6 +4,7 @@ import {tilesSet} from './TilesSet';
 import '../Layout.css';
 import Hands from './Hands'
 import Buttons from './Buttons';
+import Input from './Input'
 
 
 export default class Layout extends Component {
@@ -30,6 +31,7 @@ export default class Layout extends Component {
     this.checkTeenDey = this.checkTeenDey.bind(this);
     this.hiLowMiddle = this.hiLowMiddle.bind(this);
     this.compare = this.compare.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   baccaratCount = (n, m) => {
@@ -56,22 +58,20 @@ export default class Layout extends Component {
     //value is under 10, return the sum.
     return number;
   }
-
   
-
   //n = pairTL, n2 = otherTL
   split(n, n2){
     //Gee Joon
     if (n[0].pair === 1) {
-      let combo1 = n2[0] + 3;
-      let combo2 = n2[1] + 3;
+      let combo1 = this.baccaratCount(n2[0], n[0]);
+      let combo2 = this.baccaratCount(n2[1], n[1]);
       //if it meets the split requirements...
       if((combo1 >= 7 && combo2 >= 9) || (combo1 >= 9 && combo2 >= 7)){
-        console.log(combo1, combo2);
+        console.log('got em', combo1, combo2);
         return true;
       } 
       else {
-        console.log('nope: ', combo1, combo2);
+        
         return true;
       }
     //Teen/Dey
@@ -139,9 +139,16 @@ export default class Layout extends Component {
           let otherTL = hand.filter((x) => x.rank !== hand[i].rank); // array of the other 2 tiles. use these two to move tiles accordingly
           //if we split this pair...
           if (hand[i].split !== false) {
-            //handles splitting pairs.
-            this.split(pairTL, otherTL);
-            return true;
+            //returns true if it split..
+            if(this.split(pairTL, otherTL)) {
+              let copyArr = [pairTL[0], otherTL[0], pairTL[1], otherTL[1]];
+              this.setState(() => ({hand: copyArr}));
+            }
+            else {
+              let copyArr = otherTL.concat(pairTL);
+              this.setState(() => ({hand: copyArr}));
+              return true;
+            }
           }
           //don't split
           else {
@@ -230,8 +237,15 @@ export default class Layout extends Component {
     this.setState({hand: [newArr[0], newArr[1], newArr[2], newArr[3]], show: true, history: [...this.state.history, [...newArr]]})
   }
 
+
+
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
   //toggle effect.
-  handleToggle() {
+  handleToggle = () => {
     this.setState(() => ({cards: !this.state.cards}));
   }
 
@@ -260,6 +274,13 @@ export default class Layout extends Component {
       <div>
         {this.state.show ? <h1>{this.baccaratCount(this.state.hand[0], this.state.hand[1]) + '/' + this.baccaratCount(this.state.hand[2], this.state.hand[3])}</h1> : <h1>Press New Hand to Start</h1>}
         
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            <input type='text'/>
+          </label>
+          <button>submit</button>
+        </form>
+
         <Hands 
           cards={this.state.cards}
           hand1={this.state.hand[0].img}
