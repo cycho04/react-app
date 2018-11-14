@@ -4,7 +4,9 @@ import {tilesSet} from './TilesSet';
 import '../Layout.css';
 import Hands from './Hands'
 import Buttons from './Buttons';
-import Input from './Input'
+import Input from './Input';
+import Features from './Features';
+import Answer from './Answer';
 
 
 export default class Layout extends Component {
@@ -19,19 +21,28 @@ export default class Layout extends Component {
       pairName: '',
       rule: '',
       show: false,
-      history: []
+      history: [],
+      input1: 'GJ3',
+      input2: 'GJ6',
+      input3: 'teen',
+      input4: 'teen'
     };
     //binding in the constructor is recommended for performance.
     this.handleToggle = this.handleToggle.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleHW = this.handleHW.bind(this);
     this.assignHands = this.assignHands.bind(this);
-    this.baccaratCount = this.baccaratCount.bind(this);
     this.checkPair = this.checkPair.bind(this);
     this.checkTeenDey = this.checkTeenDey.bind(this);
     this.hiLowMiddle = this.hiLowMiddle.bind(this);
     this.compare = this.compare.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.userInput1 = this.userInput1.bind(this);
+    this.userInput2 = this.userInput2.bind(this);
+    this.userInput3 = this.userInput3.bind(this);
+    this.userInput4 = this.userInput4.bind(this);
+    this.inputClick = this.inputClick.bind(this);
+    this.baccaratCount = this.baccaratCount.bind(this);
   }
 
   baccaratCount = (n, m) => {
@@ -57,8 +68,8 @@ export default class Layout extends Component {
     }
     //value is under 10, return the sum.
     return number;
-  }
-  
+  } 
+
   //n = pairTL, n2 = otherTL
   split(n, n2){
     //Gee Joon
@@ -127,7 +138,7 @@ export default class Layout extends Component {
     //   return true;
     // }
   }
-}
+  }
 
   //checks for pairs. takes an array as arg
   checkPair(hand){
@@ -137,7 +148,7 @@ export default class Layout extends Component {
         if (hand[i].pair === hand[ii].pair && i !== ii) {
           let pairTL = hand.filter((x) => x.rank === hand[i].rank); //array of the pair tiles
           let otherTL = hand.filter((x) => x.rank !== hand[i].rank); // array of the other 2 tiles. use these two to move tiles accordingly
-          //if we split this pair...
+          //if pair has split rules...
           if (hand[i].split !== false) {
             //returns true if it split..
             if(this.split(pairTL, otherTL)) {
@@ -182,24 +193,34 @@ export default class Layout extends Component {
       }
       //look for 7,8,9
       else if (seven){
-        console.log (seven);
+        let without7 = tempArr.filter((el) => el.name !== seven.name); 
+        let sevenAndTeenOrDey = [tile, seven];
+        let newHand = sevenAndTeenOrDey.concat(without7);
+        this.setState(() => ({hand: newHand}));
         return true;   
       }
       else if(eight){
+        let without8 = tempArr.filter((el) => el.name !== eight.name); 
+        let eightAndTeenOrDey = [tile, eight];
+        let newHand = eightAndTeenOrDey.concat(without8);
+        this.setState(() => ({hand: newHand}));
         return true;
       }
       else if(nine){
+        let without9 = tempArr.filter((el) => el.name !== nine.name); 
+        let nineAndTeenOrDey = [tile, nine];
+        let newHand = nineAndTeenOrDey.concat(without9);
+        this.setState(() => ({hand: newHand}));
         return true;
       }
     }
-
     // no teen or dey...
     else{
       return false;
     }
   }
 
-  //point system used for sort()
+  //point system used for sort() in hiLowMiddle()
   compare(a,b){
     let comparison = 0;//no change
     if(a.realValue < b.realValue){
@@ -234,11 +255,8 @@ export default class Layout extends Component {
       return dummyArr;
     })
     //updates state
-    this.setState({hand: [newArr[0], newArr[1], newArr[2], newArr[3]], show: true, history: [...this.state.history, [...newArr]]})
+    this.setState({hand: [newArr[0], newArr[1], newArr[2], newArr[3]], show: true, history: [...this.state.history, [...newArr]]});
   }
-
-
-
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -252,7 +270,7 @@ export default class Layout extends Component {
   handleClick = () => {
     this.assignHands();  
     //works, but not 100% properly. the changes are one step behind. fix async.
-    //check to see the history length. max set @ 20
+    //check to see the history length. max set @ 10
     if(this.state.history.length >= 10){
       let temp = this.state.history.slice();
       temp.shift();
@@ -269,24 +287,59 @@ export default class Layout extends Component {
     }
   }
 
+  //used for dropdown options. One per card.
+  userInput1(e){
+    this.setState({input1: e.target.value});
+  }
+  userInput2(e){
+    this.setState({input2: e.target.value})
+  }
+  userInput3(e){
+    this.setState({input3: e.target.value})
+  }
+  userInput4(e){
+    this.setState({input4: e.target.value})
+  }
+
+  //updates state and changes hands.
+  inputClick(){
+    let first = tilesSet.filter((x) => x.name === this.state.input1);
+    let second = tilesSet.filter((x) => x.name === this.state.input2);
+    let third = tilesSet.filter((x) => x.name === this.state.input3);
+    let fourth = tilesSet.filter((x) => x.name === this.state.input4);
+    let newArr = [first[0], second[0], third[0], fourth[0]];
+    this.setState(() => ({hand: newArr, history: [...this.state.history, [...newArr]]}));
+  }
+
   render() {
     return (
       <div>
-        {this.state.show ? <h1>{this.baccaratCount(this.state.hand[0], this.state.hand[1]) + '/' + this.baccaratCount(this.state.hand[2], this.state.hand[3])}</h1> : <h1>Press New Hand to Start</h1>}
+    
+        <Answer 
+          show={this.state.show}
+          baccaratCount={this.baccaratCount}
+          hand={this.state.hand}
+        />
         
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            <input type='text'/>
-          </label>
-          <button>submit</button>
-        </form>
-
         <Hands 
           cards={this.state.cards}
           hand1={this.state.hand[0].img}
           hand2={this.state.hand[1].img}
           hand3={this.state.hand[2].img}
           hand4={this.state.hand[3].img} 
+        />
+        
+        <Input 
+          handleSubmit={this.handleSubmit}
+          userInput1={this.userInput1}
+          userInput2={this.userInput2}
+          userInput3={this.userInput3}
+          userInput4={this.userInput4}
+          inputClick={this.inputClick}
+          input1={this.state.input1} 
+          input2={this.state.input2} 
+          input3={this.state.input3} 
+          input4={this.state.input4} 
         />
 
         <Buttons 
@@ -295,15 +348,14 @@ export default class Layout extends Component {
           handleClick={this.handleClick} 
           handleHW={this.handleHW}
           hand={this.state.hand}
-          baccaratCount={this.baccaratCount}
         />
 
-        <h2>Value of tiles: {this.state.hand[0].val ? this.state.hand[0].val : "0"} - {this.state.hand[1].val ? this.state.hand[1].val : "0"} - {this.state.hand[2].val ? this.state.hand[2].val : "0"} - {this.state.hand[3].val ? this.state.hand[3].val : "0"}</h2>
-        <h2>Pair Name: {this.state.pairName}</h2>
-        <h2>Rule: {this.state.rule}</h2>
-        <h2>
-          History: <div>{this.state.history.map((el) => <li key={Math.random()}>{el.map((ele) => ele.name+ '--')}</li>)}</div>
-          </h2>
+        <Features 
+          hand={this.state.hand}
+          pairName={this.state.pairName}
+          rule={this.state.rule}
+          history={this.state.history}
+          />
 
       </div>
     );
