@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Route, Link, BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/js/bootstrap.bundle.min'; //need for bootstrap to work properly.
 import $ from 'jquery';
 import Popper from 'popper.js';

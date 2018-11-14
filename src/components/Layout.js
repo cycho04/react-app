@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, Link, BrowserRouter } from 'react-router-dom';
 
 import {tilesSet} from './TilesSet';
 import '../Layout.css';
