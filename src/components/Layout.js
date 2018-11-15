@@ -44,7 +44,24 @@ export default class Layout extends Component {
     this.userInput4 = this.userInput4.bind(this);
     this.inputClick = this.inputClick.bind(this);
     this.baccaratCount = this.baccaratCount.bind(this);
-  }
+    this.fixTeenDeyValue = this.fixTeenDeyValue.bind(this);
+  };
+
+  //generates new hand and updates them to state.
+  assignHands() {
+    let tempArr = [0, 0, 0, 0]; //filler array
+    let testArr = tilesSet.slice(); //filler array. tilesSet is untouched
+    //loops through and assigns random tile from deck
+    let newArr = tempArr.map((x) => {
+      let counter = Math.floor(Math.random()* (testArr.length - 1));
+      //used to hold the selected obj. needed since splice changes arr.length and we splice/display the different indexes.
+      let dummyArr = testArr[counter];
+      testArr.splice(counter, 1);
+      return dummyArr;
+    })
+    //updates state
+    this.setState({hand: [newArr[0], newArr[1], newArr[2], newArr[3]], show: true, history: [...this.state.history, [...newArr]]});
+  };
 
   baccaratCount = (n, m) => {
     //recognizing gong , wong , or pair...
@@ -54,10 +71,10 @@ export default class Layout extends Component {
     }
     else if (n.val === 2 || m.val === 2){
       if (number === 10){
-        return "Gong";
+        return 80;// so that gong will be higher than 9
       }
       else if (number === 11){
-        return 'Wong';
+        return 90; // same for wong.
       }
     }
     //regular baccarat counting...
@@ -69,77 +86,7 @@ export default class Layout extends Component {
     }
     //value is under 10, return the sum.
     return number;
-  } 
-
-  //n = pairTL, n2 = otherTL
-  split(n, n2){
-    //Gee Joon
-    if (n[0].pair === 1) {
-      let combo1 = this.baccaratCount(n2[0], n[0]);
-      let combo2 = this.baccaratCount(n2[1], n[1]);
-      //if it meets the split requirements...
-      if((combo1 >= 7 && combo2 >= 9) || (combo1 >= 9 && combo2 >= 7)){
-        console.log('got em', combo1, combo2);
-        return true;
-      } 
-      else {
-        
-        return true;
-      }
-    //Teen/Dey
-    // } else if(high[0].val === 2) {
-    //   var combo1 = baccaratCount(high[0].val, low[0].val);
-    //   var combo2 = baccaratCount(high[0].val, low[1].val);
-    //   //checks if any of the tiles are 7,8, or 9. for 9 gong and wong.
-    //   var check7_9 = low[0].val >= 7 && low[0].val <= 9;
-    //   var check7_9_2 = low[1].val >= 7 && low[1].val <= 9;
-    //   //regular 6-8 split rule.
-    //   if((combo1 >= 6 && combo2 >= 8) || (combo1 >= 8 && combo2 >= 6)){
-    //     moveTiles("split");
-    //     return true;
-    //     //we might have 7,8,9 with T/D. (with 8 and 9, it turns to 0 and 1, so we need this part.)
-    //   } else if (check7_9 === true || check7_9_2 === true){
-    //     //if both are 7,8, or 9
-    //     if (check7_9 === check7_9_2){
-    //       moveTiles("split");
-    //       return true;
-    //       //only if 1..
-    //     } else if (check7_9 === true && check7_9_2 === false){
-    //       if (low[1].val >= 3 && low[1].val <=6){
-    //         moveTiles("split");
-    //         return true;
-    //       } else {
-    //         moveTiles();
-    //         return true;
-    //       }
-    //       //if other one...
-    //     } else{
-    //       if (low[0].val >= 3 && low[0].val <=6){
-    //         moveTiles("split");
-    //         return true;
-    //       } else {
-    //         moveTiles();
-    //         return true;
-    //       }
-    //     }
-    //   //does not split.
-    //   } else {
-    //     moveTiles();
-    //     return;
-    // }
-    // } else {
-    //   // all other pairs. split pairs are in one array with a length of 2. ex: [7, 9]
-    //   var combo1 = baccaratCount(high[0].val, low[0].val);
-    //   var combo2 = baccaratCount(high[0].val, low[1].val);
-    //   if(combo1 >= high[0].split[0] && combo2 >= high[0].split[0]){
-    //     moveTiles("split");
-    //   } else {
-    //     moveTiles();
-    //   }
-    //   return true;
-    // }
-  }
-  }
+  };
 
   //checks for pairs. takes an array as arg
   checkPair(hand){
@@ -151,18 +98,11 @@ export default class Layout extends Component {
           let otherTL = hand.filter((x) => x.rank !== hand[i].rank); // array of the other 2 tiles. use these two to move tiles accordingly
           //if pair has split rules...
           if (hand[i].split !== false) {
-            //returns true if it split..
-            if(this.split(pairTL, otherTL)) {
-              let copyArr = [pairTL[0], otherTL[0], pairTL[1], otherTL[1]];
-              this.setState(() => ({hand: copyArr}));
-            }
-            else {
-              let copyArr = otherTL.concat(pairTL);
-              this.setState(() => ({hand: copyArr}));
-              return true;
-            }
+            //handles split rules.
+            this.split(pairTL, otherTL);
+            return true;
           }
-          //don't split
+          //pairs that don't split
           else {
             let copyArr = otherTL.concat(pairTL); //concats the two small arrays together and renders.
             this.setState(() => ({hand: copyArr, pairName: pairTL[0].name, rule: 'Don\'t Split'}))
@@ -172,7 +112,7 @@ export default class Layout extends Component {
       }
     }
     return false; // no pairs
-  }
+  };
 
   //will not execute if there is a pair...(checkPair returns true)
   checkTeenDey(hand){
@@ -197,21 +137,21 @@ export default class Layout extends Component {
         let without7 = tempArr.filter((el) => el.name !== seven.name); 
         let sevenAndTeenOrDey = [tile, seven];
         let newHand = sevenAndTeenOrDey.concat(without7);
-        this.setState(() => ({hand: newHand}));
+        this.setState(() => ({hand: newHand, rule: 'Teen/Dey'}));
         return true;   
       }
       else if(eight){
         let without8 = tempArr.filter((el) => el.name !== eight.name); 
         let eightAndTeenOrDey = [tile, eight];
         let newHand = eightAndTeenOrDey.concat(without8);
-        this.setState(() => ({hand: newHand}));
+        this.setState(() => ({hand: newHand, rule: 'Teen/Dey'}));
         return true;
       }
       else if(nine){
         let without9 = tempArr.filter((el) => el.name !== nine.name); 
         let nineAndTeenOrDey = [tile, nine];
         let newHand = nineAndTeenOrDey.concat(without9);
-        this.setState(() => ({hand: newHand}));
+        this.setState(() => ({hand: newHand, rule: 'Teen/Dey'}));
         return true;
       }
     }
@@ -219,7 +159,7 @@ export default class Layout extends Component {
     else{
       return false;
     }
-  }
+  };
 
   //point system used for sort() in hiLowMiddle()
   compare(a,b){
@@ -231,6 +171,20 @@ export default class Layout extends Component {
       comparison = 1;//b comes before a
     }
     return comparison;
+  };
+
+  // used in Answers.js. used to control the value being displayed. used to change value of gong/wong
+  fixTeenDeyValue = (hand1, hand2) =>{
+    const hand = this.baccaratCount(hand1, hand2);
+    if(hand === 80){
+        return 'Gong';
+    }
+    else if(hand === 90){
+        return 'Wong';
+    }
+    else {
+      return hand;
+    }
   }
 
   //will not execute if there is a teen dey...
@@ -241,32 +195,16 @@ export default class Layout extends Component {
     let tempBack = [sortedArr[1], sortedArr[2]];
     let hiLow = tempHair.concat(tempBack); //newly sorted arr
     this.setState(() => ({hand: hiLow, rule: 'Hi-Low-Middle'}));
-  }
-
-  //generates new hand and updates them to state.
-  assignHands() {
-    let tempArr = [0, 0, 0, 0]; //filler array
-    let testArr = tilesSet.slice(); //filler array. tilesSet is untouched
-    //loops through and assigns random tile from deck
-    let newArr = tempArr.map((x) => {
-      let counter = Math.floor(Math.random()* (testArr.length - 1));
-      //used to hold the selected obj. needed since splice changes arr.length and we splice/display the different indexes.
-      let dummyArr = testArr[counter];
-      testArr.splice(counter, 1);
-      return dummyArr;
-    })
-    //updates state
-    this.setState({hand: [newArr[0], newArr[1], newArr[2], newArr[3]], show: true, history: [...this.state.history, [...newArr]]});
-  }
-
+  };
+  
   handleSubmit = (e) => {
     e.preventDefault();
-  }
+  };
 
   //toggle effect.
   handleToggle = () => {
     this.setState(() => ({cards: !this.state.cards}));
-  }
+  };
 
   handleClick = () => {
     this.assignHands();  
@@ -277,7 +215,7 @@ export default class Layout extends Component {
       temp.shift();
       this.setState(() => ({history: temp}))
     }
-  }
+  };
 
   //House Way
   handleHW(){
@@ -286,20 +224,72 @@ export default class Layout extends Component {
         this.hiLowMiddle(this.state.hand);
       }
     }
-  }
+  };
 
   //used for dropdown options. One per card.
   userInput1(e){
     this.setState({input1: e.target.value});
-  }
+  };
   userInput2(e){
     this.setState({input2: e.target.value})
-  }
+  };
   userInput3(e){
     this.setState({input3: e.target.value})
-  }
+  };
   userInput4(e){
     this.setState({input4: e.target.value})
+  };
+
+  //n = pairTL, n2 = otherTL
+  split(n, n2){
+    const combo1 = this.baccaratCount(n2[0], n[0]);
+    const combo2 = this.baccaratCount(n2[1], n[1]);
+    let dontSplitArr = n.concat(n2);
+    let splitArr = [n[0], n2[0], n[1], n2[1]];
+
+    //Gee Joon
+    if (n[0].pair === 1) {
+      //if it meets the split requirements...
+      if((combo1 >= 7 && combo2 >= 9) || (combo1 >= 9 && combo2 >= 7)){
+        this.setState(() => ({hand: splitArr, rule: 'pairs'}));
+      } 
+      else {
+        this.setState(() => ({hand: dontSplitArr, rule: 'pairs'}));
+      }
+      return true;
+    }
+
+    //TeenDey
+    else if(n[0].pair === 2){
+      //if it splits to make 6/8 or better
+      if((combo1 >= 6 && combo2 >= 8) || (combo1 >= 8 && combo2 >= 6)){
+        this.setState(() => ({hand: splitArr, rule: 'pairs'}));
+      }
+      else if((n2[0].val === 9 && n2[1].val === 1) || (n2[0].val === 1 && n2[1].val === 9)){
+        this.setState(() => ({hand: splitArr, rule: 'pair'}));
+      }
+      else{
+        this.setState(() => ({hand: dontSplitArr, rule: 'pairs'}));
+      }
+      return true;
+    }
+
+    //all other pairs(needs work on recognizing teen dey)
+    else {
+      if(combo1 >= n[0].split && combo2 >= n[0].split){
+        //checks for gong/wong
+        if((n2[0].val === 2 && combo2 >= n[0].split) || (n2[1].val === 2 && combo1 >= n[0].split)){
+          this.setState(() => ({hand: splitArr, rule: 'split'}));
+        }
+        else {
+          this.setState(() => ({hand: splitArr, rule: 'split'}));
+        }
+      }
+      else {
+        this.setState(() => ({hand: dontSplitArr, rule: 'pairs'}));
+      }
+      return true;
+    }
   }
 
   //updates state and changes hands.
@@ -309,17 +299,17 @@ export default class Layout extends Component {
     let third = tilesSet.filter((x) => x.name === this.state.input3);
     let fourth = tilesSet.filter((x) => x.name === this.state.input4);
     let newArr = [first[0], second[0], third[0], fourth[0]];
-    this.setState(() => ({hand: newArr, history: [...this.state.history, [...newArr]]}));
-  }
+    this.setState(() => ({hand: newArr, history: [...this.state.history, [...newArr]], show: true}));
+  };
 
   render() {
     return (
       <div>
-    
         <Answer 
           show={this.state.show}
           baccaratCount={this.baccaratCount}
           hand={this.state.hand}
+          fixTeenDeyValue={this.fixTeenDeyValue}
         />
         
         <Hands 
@@ -356,9 +346,8 @@ export default class Layout extends Component {
           pairName={this.state.pairName}
           rule={this.state.rule}
           history={this.state.history}
-          />
-
+        />
       </div>
     );
-  }
-}
+  };
+};
