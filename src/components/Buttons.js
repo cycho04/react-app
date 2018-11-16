@@ -1,4 +1,5 @@
 import React from 'react';
+import './fade.css';
 
 const Buttons = (props) =>{
     return (

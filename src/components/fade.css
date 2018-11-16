@@ -1,9 +1,8 @@
-.cards {
+.fadeIn {
     transition: 1s;
 }
 
-.cards2 {
-    height: 100px;
+.fadeOut {
     transition: 1s;
     opacity: 0;
 }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Route, Link, BrowserRouter } from 'react-router-dom';
 
 import {tilesSet} from './TilesSet';
 import '../Layout.css';
@@ -18,6 +17,7 @@ export default class Layout extends Component {
     this.state = {
       //needs empty spots for when (mounting) <Hands hand1={this.state.hand[0].img} /> else error since hand[0] doesnt exist.
       hand: ["", "", "", ""],
+      exceptions: [],
       cards: false,
       pairName: '',
       rule: '',
@@ -45,6 +45,7 @@ export default class Layout extends Component {
     this.inputClick = this.inputClick.bind(this);
     this.baccaratCount = this.baccaratCount.bind(this);
     this.fixTeenDeyValue = this.fixTeenDeyValue.bind(this);
+    this.exceptions = this.exceptions.bind(this);
   };
 
   //generates new hand and updates them to state.
@@ -53,7 +54,7 @@ export default class Layout extends Component {
     let testArr = tilesSet.slice(); //filler array. tilesSet is untouched
     //loops through and assigns random tile from deck
     let newArr = tempArr.map((x) => {
-      let counter = Math.floor(Math.random()* (testArr.length - 1));
+      let counter = Math.floor(Math.random()* (testArr.length));
       //used to hold the selected obj. needed since splice changes arr.length and we splice/display the different indexes.
       let dummyArr = testArr[counter];
       testArr.splice(counter, 1);
@@ -63,6 +64,7 @@ export default class Layout extends Component {
     this.setState({hand: [newArr[0], newArr[1], newArr[2], newArr[3]], show: true, history: [...this.state.history, [...newArr]]});
   };
 
+  //handles bacc counts, as well as gong, wong, and pair
   baccaratCount = (n, m) => {
     //recognizing gong , wong , or pair...
     let number = n.val + m.val;
@@ -90,16 +92,16 @@ export default class Layout extends Component {
 
   //checks for pairs. takes an array as arg
   checkPair(hand){
+    //maybe add a pair check func before the loop, to avoid unnecessary looping.
     for(let i = 0; i < hand.length; i++) {
       for (let ii = 0; ii < hand.length; ii++) {
         // if there is a pair and it is not comparing to itself.
         if (hand[i].pair === hand[ii].pair && i !== ii) {
           let pairTL = hand.filter((x) => x.rank === hand[i].rank); //array of the pair tiles
-          let otherTL = hand.filter((x) => x.rank !== hand[i].rank); // array of the other 2 tiles. use these two to move tiles accordingly
+          let otherTL = hand.filter((x) => x.rank !== hand[i].rank); // array of the other 2 tiles. use these two arr to move tiles accordingly
           //if pair has split rules...
           if (hand[i].split !== false) {
-            //handles split rules.
-            this.split(pairTL, otherTL);
+            this.split(pairTL, otherTL);//handles split rules.
             return true;
           }
           //pairs that don't split
@@ -111,7 +113,7 @@ export default class Layout extends Component {
         }
       }
     }
-    return false; // no pairs
+    return false; //no pairs
   };
 
   //will not execute if there is a pair...(checkPair returns true)
@@ -173,6 +175,11 @@ export default class Layout extends Component {
     return comparison;
   };
 
+  exceptions(hand){
+    //redo
+    return false
+  }
+
   // used in Answers.js. used to control the value being displayed. used to change value of gong/wong
   fixTeenDeyValue = (hand1, hand2) =>{
     const hand = this.baccaratCount(hand1, hand2);
@@ -220,8 +227,10 @@ export default class Layout extends Component {
   //House Way
   handleHW(){
     if(!this.checkPair(this.state.hand)){
-      if(!this.checkTeenDey(this.state.hand)){
-        this.hiLowMiddle(this.state.hand);
+      if(!this.exceptions(this.state.hand)){
+        if(!this.checkTeenDey(this.state.hand)){
+          this.hiLowMiddle(this.state.hand);
+        }  
       }
     }
   };
@@ -305,7 +314,9 @@ export default class Layout extends Component {
   render() {
     return (
       <div>
+        <button onClick={this.handleToggle}>Easy Mode</button>
         <Answer 
+          cards={this.state.cards}
           show={this.state.show}
           baccaratCount={this.baccaratCount}
           hand={this.state.hand}
@@ -313,7 +324,6 @@ export default class Layout extends Component {
         />
         
         <Hands 
-          cards={this.state.cards}
           hand1={this.state.hand[0].img}
           hand2={this.state.hand[1].img}
           hand3={this.state.hand[2].img}
@@ -346,6 +356,7 @@ export default class Layout extends Component {
           pairName={this.state.pairName}
           rule={this.state.rule}
           history={this.state.history}
+          cards={this.state.cards}
         />
       </div>
     );
