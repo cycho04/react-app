@@ -1,11 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter, Switch } from 'react-router-dom';
-import 'bootstrap/dist/js/bootstrap.bundle.min'; //need for bootstrap to work properly.
-import $ from 'jquery';
-import Popper from 'popper.js';
-import 'bootstrap/dist/css/bootstrap.css';
-import './index.css'; //placed after bootstrap import to override with our css.
+import './index.css';
 import Layout from './components/Layout';
 import FrontPage from './components/FrontPage';
 import Rules from './components/Rules';
