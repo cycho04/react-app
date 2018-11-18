@@ -13,16 +13,13 @@ import AssignHands from './AssignHands'
 import Compare from './Compare';
 import Split from './Split';
 
-
 export default class Layout extends Component {
   constructor(props) {
     console.log("starting up");
     super(props);
-    //each hand holds a randomly generated tile object from { tilesSet }
     this.state = {
       //needs empty spots for when (mounting) <Hands hand1={this.state.hand[0].img} /> else error since hand[0] doesnt exist.
       hand: ["", "", "", ""],
-      exceptions: [],
       cards: false,
       pairName: '',
       rule: '',
@@ -33,7 +30,6 @@ export default class Layout extends Component {
       input3: 'teen',
       input4: 'teen'
     };
-    //binding in the constructor is recommended for performance.
     this.handleToggle = this.handleToggle.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleHW = this.handleHW.bind(this);
