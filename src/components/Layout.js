@@ -12,10 +12,10 @@ import Exceptions from './Exceptions';
 import AssignHands from './AssignHands'
 import Compare from './Compare';
 import Split from './Split';
+import CheckBabies from './CheckBabies'
 
 export default class Layout extends Component {
   constructor(props) {
-    console.log("starting up");
     super(props);
     this.state = {
       //needs empty spots for when (mounting) <Hands hand1={this.state.hand[0].img} /> else error since hand[0] doesnt exist.
@@ -44,15 +44,10 @@ export default class Layout extends Component {
     this.userInput4 = this.userInput4.bind(this);
     this.inputClick = this.inputClick.bind(this);
     this.handleExceptions = this.handleExceptions.bind(this);
+    this.handleBabies = this.handleBabies.bind(this);
   };
 
-  //generates new hand and updates them to state.
-  handleAssignHands() {
-    let tempArr = AssignHands(); //imported, returns a randomly generated hand.
-    this.setState({hand: [tempArr[0], tempArr[1], tempArr[2], tempArr[3]], show: true, history: [...this.state.history, [...tempArr]]});
-  };
-
-  //checks for pairs. takes an array as arg
+  //move to another file.
   checkPair(hand){
     //maybe add a pair check func before the loop, to avoid unnecessary looping.
     for(let i = 0; i < hand.length; i++) {
@@ -78,8 +73,6 @@ export default class Layout extends Component {
     }
     return false; //no pairs
   };
-
-  //will not execute if there is a pair...(checkPair returns true)
   checkTeenDey(hand){
     //true if we have teen or dey
     let teenDey = hand.find((el) => el.val === 2) !== undefined;
@@ -125,6 +118,37 @@ export default class Layout extends Component {
       return false;
     }
   };
+  hiLowMiddle(hand){
+    //makes a new copy of hand and sorts it using sort()'s point system.
+    let sortedArr = hand.slice().sort(Compare); //Compare() is imported.  slice used, else mutates hand.
+    let tempHair = [sortedArr[0], sortedArr[3]];
+    let tempBack = [sortedArr[1], sortedArr[2]];
+    let hiLow = tempHair.concat(tempBack); //newly sorted arr
+    this.setState(() => ({hand: hiLow, rule: 'Hi-Low-Middle'}));
+  };
+  //updates state and changes hands.
+  inputClick(){
+    let first = tilesSet.filter((x) => x.name === this.state.input1);
+    let second = tilesSet.filter((x) => x.name === this.state.input2);
+    let third = tilesSet.filter((x) => x.name === this.state.input3);
+    let fourth = tilesSet.filter((x) => x.name === this.state.input4);
+    let newArr = [first[0], second[0], third[0], fourth[0]];
+    this.setState(() => ({hand: newArr, history: [...this.state.history, [...newArr]], show: true}));
+  };
+  
+
+  handleBabies = (hand) => {
+    let temp = CheckBabies(hand);
+    if(temp.length === 4){
+      this.setState(() => ({hand: temp, rule: 'babies?'}));
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+
 
   handleExceptions(hand){
     let whichOne = Exceptions(hand);//imported
@@ -138,14 +162,10 @@ export default class Layout extends Component {
     }
   }
 
-  //will not execute if there is a teen dey...
-  hiLowMiddle(hand){
-    //makes a new copy of hand and sorts it using sort()'s point system.
-    let sortedArr = hand.slice().sort(Compare); //Compare() is imported.  slice used, else mutates hand.
-    let tempHair = [sortedArr[0], sortedArr[3]];
-    let tempBack = [sortedArr[1], sortedArr[2]];
-    let hiLow = tempHair.concat(tempBack); //newly sorted arr
-    this.setState(() => ({hand: hiLow, rule: 'Hi-Low-Middle'}));
+  //generates new hand and updates them to state.
+  handleAssignHands() {
+    let tempArr = AssignHands(); //imported, returns a randomly generated hand.
+    this.setState({hand: [tempArr[0], tempArr[1], tempArr[2], tempArr[3]], show: true, history: [...this.state.history, [...tempArr]]});
   };
   
   handleSubmit = (e) => {
@@ -173,7 +193,9 @@ export default class Layout extends Component {
     if(!this.checkPair(this.state.hand)){
       if(!this.handleExceptions(this.state.hand)){
         if(!this.checkTeenDey(this.state.hand)){
-          this.hiLowMiddle(this.state.hand);
+          if(!this.handleBabies(this.state.hand)){
+            this.hiLowMiddle(this.state.hand);
+          }
         }  
       }
     }
@@ -193,15 +215,7 @@ export default class Layout extends Component {
     this.setState({input4: e.target.value})
   };
 
-  //updates state and changes hands.
-  inputClick(){
-    let first = tilesSet.filter((x) => x.name === this.state.input1);
-    let second = tilesSet.filter((x) => x.name === this.state.input2);
-    let third = tilesSet.filter((x) => x.name === this.state.input3);
-    let fourth = tilesSet.filter((x) => x.name === this.state.input4);
-    let newArr = [first[0], second[0], third[0], fourth[0]];
-    this.setState(() => ({hand: newArr, history: [...this.state.history, [...newArr]], show: true}));
-  };
+
 
   render() {
     return (
