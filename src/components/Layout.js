@@ -45,7 +45,12 @@ export default class Layout extends Component {
     this.inputClick = this.inputClick.bind(this);
     this.handleExceptions = this.handleExceptions.bind(this);
     this.handleBabies = this.handleBabies.bind(this);
+    this.determineGeeJoon = this.determineGeeJoon.bind(this);
   };
+
+  determineGeeJoon(hand){
+
+  }
 
   //move to another file.
   checkPair(hand){
