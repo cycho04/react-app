@@ -136,7 +136,6 @@ export default class Layout extends Component {
     this.setState(() => ({hand: newArr, history: [...this.state.history, [...newArr]], show: true}));
   };
   
-
   handleBabies = (hand) => {
     let temp = CheckBabies(hand);
     if(temp.length === 4){
@@ -147,8 +146,6 @@ export default class Layout extends Component {
       return false;
     }
   }
-
-
 
   handleExceptions(hand){
     let whichOne = Exceptions(hand);//imported

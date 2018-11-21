@@ -1,3 +1,5 @@
+import Compare from './Compare';
+
 const CheckBabies = (hand) => {
     
     let highSix = hand.filter((x) => (x.val === 6) && (x.rank === 6));
@@ -20,9 +22,15 @@ const CheckBabies = (hand) => {
     let babies = hand.filter((x) => x.val >= 4 && x.val <= 5);
     
     let tempArr = '';
+    let sortedArr = hand.slice().sort(Compare); //Compare() is imported.  slice used, else mutates hand
+    
+    //3 big
+    if (big.length === 3){
+      return sortedArr;
+    }
 
     //3 babies
-    if(babies.length === 3){
+    else if (babies.length === 3){
       let remainingTile = hand.filter((x) => x.val !== 4 && x.val !== 5);
       //big tile
       if(remainingTile[0].val <= 2){
@@ -42,7 +50,7 @@ const CheckBabies = (hand) => {
     }
 
     //2 babies
-    if(babies.length === 2){
+    else if (babies.length === 2){
       let remainingTile = hand.filter((x) => x.rank !== 16 && (x.val !== 4 && x.val !== 5));
       //  1 geejoon
       if(geeJoon.length === 1){
