@@ -1,23 +1,16 @@
 import Compare from './Compare';
 
 const CheckBabies = (hand) => {
-    
-    let highSix = hand.filter((x) => (x.val === 6) && (x.rank === 6));
-    let lowSix = hand.filter((x) => (x.val === 6) && (x.rank === 11));
-    let highTen = hand.filter((x) => (x.val === 0) && (x.rank === 5));
-    let lowTen = hand.filter((x) => (x.val === 0) && (x.rank === 9));
+  
     let highFour = hand.filter((x) => (x.val === 4) && (x.rank === 4));
     let lowFour = hand.filter((x) => (x.val === 4) && (x.rank === 7));
     let five = hand.filter((x) => x.val === 5);
     let eleven = hand.filter((x) => x.val === 1);
     let nine = hand.filter((x) => x.val === 9);
-    let anyTen = hand.filter((x) => x.val === 0);
-    let teenOrDey = hand.filter((x) => x.val === 2);
     let anyFour = hand.filter((x) => x.val === 4);
 
     let geeJoon = hand.filter((x) => x.rank === 16);
     let number = hand.filter((x) => x.val >= 6 && x.val <= 9);
-    let anySix = hand.filter((x) => x.val === 6);
     let big = hand.filter((x) => x.realValue >= 10);
     let babies = hand.filter((x) => x.val >= 4 && x.val <= 5);
     

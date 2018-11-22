@@ -13,6 +13,7 @@ import AssignHands from './AssignHands'
 import Compare from './Compare';
 import Split from './Split';
 import CheckBabies from './CheckBabies'
+import CheckGeeJoon from './CheckGJ';
 
 export default class Layout extends Component {
   constructor(props) {
@@ -49,7 +50,11 @@ export default class Layout extends Component {
   };
 
   determineGeeJoon(hand){
-
+    let newArr = CheckGeeJoon(hand);
+    //true if there is geejoon, else false
+    if(newArr !== false){
+      this.setState(() => ({hand: newArr}));
+    }
   }
 
   //move to another file.
@@ -192,6 +197,7 @@ export default class Layout extends Component {
 
   //House Way
   handleHW(){
+    this.determineGeeJoon(this.state.hand);
     if(!this.checkPair(this.state.hand)){
       if(!this.handleExceptions(this.state.hand)){
         if(!this.checkTeenDey(this.state.hand)){
