@@ -14,6 +14,7 @@ import Compare from './Compare';
 import Split from './Split';
 import CheckBabies from './CheckBabies'
 import CheckGeeJoon from './CheckGJ';
+import BaccaratCount from './BaccaratCount';
 
 export default class Layout extends Component {
   constructor(props) {
@@ -47,6 +48,7 @@ export default class Layout extends Component {
     this.handleExceptions = this.handleExceptions.bind(this);
     this.handleBabies = this.handleBabies.bind(this);
     this.determineGeeJoon = this.determineGeeJoon.bind(this);
+    this.sook = this.sook.bind(this);
   };
 
   determineGeeJoon(hand){
@@ -75,7 +77,7 @@ export default class Layout extends Component {
           //pairs that don't split
           else {
             let copyArr = otherTL.concat(pairTL); //concats the two small arrays together and renders.
-            this.setState(() => ({hand: copyArr, pairName: pairTL[0].name, rule: 'Don\'t Split'}))
+            this.setState(() => ({hand: copyArr, pairName: pairTL[0].name, rule: 'Don\'t Split'}));
             return true;
           }
         }
@@ -197,17 +199,42 @@ export default class Layout extends Component {
 
   //House Way
   handleHW(){
-    this.determineGeeJoon(this.state.hand);
-    if(!this.checkPair(this.state.hand)){
-      if(!this.handleExceptions(this.state.hand)){
-        if(!this.checkTeenDey(this.state.hand)){
-          if(!this.handleBabies(this.state.hand)){
-            this.hiLowMiddle(this.state.hand);
+    this.determineGeeJoon(this.state.hand);  
+                   // 0)Determines GeeJoon Value
+    if(!this.checkPair(this.state.hand)){                   // 1)Checks for pairs
+      if(!this.handleExceptions(this.state.hand)){          // 2)If no pairs, checks for Exceptions
+        if(!this.checkTeenDey(this.state.hand)){            // 3)If no exceptions, checks for Teen or Dey
+          if(!this.handleBabies(this.state.hand)){          // 4)If no Teen or Dey, checks for babies/3 big tiles
+            this.hiLowMiddle(this.state.hand);              // 5)Lastly, sets hand using high low middle. 
           }
         }  
       }
     }
+    this.sook(this.state.hand);
   };
+
+  sook(hand){
+    let low = BaccaratCount(hand[0], hand[1]);
+    let high = BaccaratCount(hand[2], hand[3]);
+    if (low <= 3 || high <= 3){
+      let combo1 = BaccaratCount(hand[0], hand[2]);
+      let combo2 = BaccaratCount(hand[0], hand[3]);
+      let combo3 = BaccaratCount(hand[1], hand[2]);
+      let combo4 = BaccaratCount(hand[1], hand[3]);
+      if(combo1 > high){
+        this.setState(() => ({rule: '02'}))
+      }
+      if(combo2 > high){
+        this.setState(() => ({rule: '03'}))
+      }
+      if(combo3 > high){
+        this.setState(() => ({rule: '12'}))
+      }
+      if(combo4 > high){
+        this.setState(() => ({rule: '13'}))
+      }
+    }
+  }
 
   //used for dropdown options. One per card.
   userInput1(e){
