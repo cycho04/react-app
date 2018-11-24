@@ -16,6 +16,10 @@ import CheckBabies from './CheckBabies'
 import CheckGeeJoon from './CheckGJ';
 import BaccaratCount from './BaccaratCount';
 
+import Button from '@material-ui/core/Button';
+import '../index.css';
+
+
 export default class Layout extends Component {
   constructor(props) {
     super(props);
@@ -221,16 +225,16 @@ export default class Layout extends Component {
       let combo2 = BaccaratCount(hand[0], hand[3]);
       let combo3 = BaccaratCount(hand[1], hand[2]);
       let combo4 = BaccaratCount(hand[1], hand[3]);
-      if(combo1 > high){
+      if(combo1 > high && combo1 >= 7){
         this.setState(() => ({rule: '02'}))
       }
-      if(combo2 > high){
+      if(combo2 > high && combo2 >= 7){
         this.setState(() => ({rule: '03'}))
       }
-      if(combo3 > high){
+      if(combo3 > high && combo3 >= 7){
         this.setState(() => ({rule: '12'}))
       }
-      if(combo4 > high){
+      if(combo4 > high && combo4 >= 7){
         this.setState(() => ({rule: '13'}))
       }
     }
@@ -255,7 +259,10 @@ export default class Layout extends Component {
   render() {
     return (
       <div>
-        <button onClick={this.handleToggle}>Easy Mode</button>
+        <div className='test'>
+          <Button variant='contained' color='primary' onClick={this.handleToggle}>Easy</Button>  
+        </div>
+        
         <Answer 
           cards={this.state.cards}
           show={this.state.show}

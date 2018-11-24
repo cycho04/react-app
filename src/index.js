@@ -7,21 +7,17 @@ import FrontPage from './components/FrontPage';
 import Rules from './components/Rules';
 import NotFound from  './components/NotFound';
 
+import Button from '@material-ui/core/Button';
 
 const Routing = (
     <BrowserRouter>
         <div>
-            <ul>
-                <li>
-                    <Link to='/'>Front</Link>
-                </li>
-                <li>
-                    <Link to='/game'>Home</Link>
-                </li>
-                <li>
-                    <Link to='/rules'>Rules</Link>
-                </li>
-            </ul>
+            <div className='test'>
+                <Button component={Link} to="/" className='sizing'>Casino</Button>
+                <Button component={Link} to="/game">Game</Button>
+                <Button component={Link} to="/rules">Rules</Button>    
+            </div>
+            
             <Switch>
                 <Route exact path='/'component={FrontPage}/>
                 <Route path='/game'component={Layout}/>
