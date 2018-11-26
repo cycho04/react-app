@@ -1,11 +1,13 @@
 import React from 'react';
 import './fade.css';
 
+import Button from '@material-ui/core/Button';
+
 const Buttons = (props) =>{
     return (
         <div align='center'>
-            <button type="button" className="btn btn-dark" onClick={props.handleHW}>House-way</button>
-            <button type="button" className="btn btn-dark" onClick={props.handleClick}>New Hand</button>
+            <Button variant='contained' color='primary' onClick={props.handleHW}>House-way</Button>
+            <Button variant='contained' color='primary' onClick={props.handleClick}>New Hand</Button>
         </div>
     );
 }
