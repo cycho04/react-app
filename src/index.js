@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Link, BrowserRouter, Switch } from 'react-router-dom';
+import { Route, Link, BrowserRouter, Switch, NavLink } from 'react-router-dom';
 import './index.css';
 import Layout from './components/Layout';
 import FrontPage from './components/FrontPage';
@@ -15,18 +15,17 @@ const Routing = (
     <BrowserRouter>
         <div>
             <div className='test navbar'>
-                <Button variant='contained' color='primary' component={Link} to="/lotuslodi">Lotus/Lodi</Button>
+                <NavLink to="/lotuslodi">Lotus/Lodi</NavLink>
                 <Button disabled variant='contained' color='primary' component={Link} to="/game">Palace</Button>
                 <Button disabled variant='contained' color='primary' component={Link} to="/game">Bike</Button>
                 <Button variant='contained' color='primary' component={Link} to="/rules">Rules</Button>    
             </div>
-            
             <Switch>
                 <Route exact path='/'component={FrontPage}/>
                 <Route path='/lotuslodi'component={Layout}/>
                 <Route path='/rules' component={Rules}/>
                 <Route component={NotFound}/>    
-            </Switch>
+            </Switch>    
         </div>
     </BrowserRouter>
 )
