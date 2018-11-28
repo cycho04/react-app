@@ -9,16 +9,26 @@ import NotFound from  './components/NotFound';
 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
-import Button from '@material-ui/core/Button';
+const style = {
+    fontWeight: 'bold', 
+    borderStyle: 'solid', 
+    padding: '10px'
+}
+
+const style2 = {
+    fontWeight: 'bold', 
+    borderStyle: 'dashed', 
+    padding: '10px'
+}
 
 const Routing = (
     <BrowserRouter>
         <div>
             <div className='test navbar'>
-                <NavLink to="/lotuslodi">Lotus/Lodi</NavLink>
-                <Button disabled variant='contained' color='primary' component={Link} to="/game">Palace</Button>
-                <Button disabled variant='contained' color='primary' component={Link} to="/game">Bike</Button>
-                <Button variant='contained' color='primary' component={Link} to="/rules">Rules</Button>    
+                <NavLink style={style} activeStyle={style2} to="/lotuslodi">Lotus/Lodi</NavLink>
+                <NavLink style={style} to="/game">Palace</NavLink>
+                <NavLink style={style} to="/game">Bike</NavLink>
+                <NavLink style={style} to="/rules">Rules</NavLink>
             </div>
             <Switch>
                 <Route exact path='/'component={FrontPage}/>

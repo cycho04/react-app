@@ -205,6 +205,11 @@ export default class Layout extends Component {
   handleHW(){
     this.determineGeeJoon(this.state.hand);  
                    // 0)Determines GeeJoon Value
+                   // 1)
+                   // 2)
+                   // 3)
+                   // 4)
+                   // 5)
     if(!this.checkPair(this.state.hand)){                   // 1)Checks for pairs
       if(!this.handleExceptions(this.state.hand)){          // 2)If no pairs, checks for Exceptions
         if(!this.checkTeenDey(this.state.hand)){            // 3)If no exceptions, checks for Teen or Dey
