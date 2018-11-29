@@ -25,6 +25,7 @@ export default class Layout extends Component {
     super(props);
     this.state = {
       //needs empty spots for when (mounting) <Hands hand1={this.state.hand[0].img} /> else error since hand[0] doesnt exist.
+      start: true,
       hand: ["", "", "", ""],
       cards: false,
       pairName: '',
@@ -53,7 +54,14 @@ export default class Layout extends Component {
     this.handleBabies = this.handleBabies.bind(this);
     this.determineGeeJoon = this.determineGeeJoon.bind(this);
     this.sook = this.sook.bind(this);
+    this.checkStart = this.checkStart.bind(this);
   };
+
+  checkStart(start){
+    if(this.state.start){
+      this.setState(() => ({start: false}));
+    }
+  }
 
   determineGeeJoon(hand){
     let newArr = CheckGeeJoon(hand);
@@ -182,6 +190,7 @@ export default class Layout extends Component {
   };
   
   handleSubmit = (e) => {
+    this.checkStart(this.state.hand);
     e.preventDefault();
   };
 
@@ -191,6 +200,7 @@ export default class Layout extends Component {
   };
 
   handleClick = () => {
+    this.checkStart(this.state.start);
     this.handleAssignHands();  
     //works, but not 100% properly. the changes are one step behind. fix async.
     //check to see the history length. max set @ 10
@@ -275,6 +285,7 @@ export default class Layout extends Component {
         />
         
         <Hands 
+          start={this.state.start}
           hand1={this.state.hand[0].img}
           hand2={this.state.hand[1].img}
           hand3={this.state.hand[2].img}
@@ -282,6 +293,7 @@ export default class Layout extends Component {
         />
         
         <Input 
+          start={this.state.start}
           handleSubmit={this.handleSubmit}
           userInput1={this.userInput1}
           userInput2={this.userInput2}
@@ -295,6 +307,7 @@ export default class Layout extends Component {
         />
 
         <Buttons 
+          start={this.state.start}
           handleClick={this.handleClick} 
           handleHW={this.handleHW}
           hand={this.state.hand}

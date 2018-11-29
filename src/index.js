@@ -10,9 +10,18 @@ import NotFound from  './components/NotFound';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const style = {
-    fontWeight: 'bold', 
-    borderStyle: 'solid', 
-    padding: '10px'
+    style:{
+        fontWeight: 'bold', 
+        borderStyle: 'solid', 
+        padding: '10px',
+        marginLeft: '10px',
+        marginRight: '10px'  
+    },
+    rules:{
+        marginRight: 0,
+
+    }
+    
 }
 
 const style2 = {
@@ -25,10 +34,10 @@ const Routing = (
     <BrowserRouter>
         <div>
             <div className='test navbar'>
-                <NavLink style={style} activeStyle={style2} to="/lotuslodi">Lotus/Lodi</NavLink>
-                <NavLink style={style} to="/game">Palace</NavLink>
-                <NavLink style={style} to="/game">Bike</NavLink>
-                <NavLink style={style} to="/rules">Rules</NavLink>
+                <NavLink style={style.style} activeStyle={style2} to="/lotuslodi">Lotus/Lodi</NavLink>
+                <NavLink style={style.style} to="/palace">Palace</NavLink>
+                <NavLink style={style.style} to="/bike">Bike</NavLink>
+                <NavLink style={style.style} to="/rules">Rules</NavLink>
             </div>
             <Switch>
                 <Route exact path='/'component={FrontPage}/>

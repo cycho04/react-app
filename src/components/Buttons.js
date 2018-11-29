@@ -3,11 +3,18 @@ import './fade.css';
 
 import Button from '@material-ui/core/Button';
 
+const style = {
+    buttons: {
+        margin: '20px 10px'
+    }
+}
+
 const Buttons = (props) =>{
     return (
+        //disables HW button until the new hand button is pressed.
         <div align='center'>
-            <Button variant='contained' color='primary' onClick={props.handleHW}>House-way</Button>
-            <Button variant='contained' color='primary' onClick={props.handleClick}>New Hand</Button>
+            {props.start ? <Button style={style.buttons} disabled variant='contained' color='primary' onClick={props.handleHW}>House-way</Button> : <Button style={style.buttons} variant='contained' color='primary' onClick={props.handleHW}>House-way</Button>}
+            <Button style={style.buttons} variant='contained' color='primary' onClick={props.handleClick}>New Hand</Button>
         </div>
     );
 }
