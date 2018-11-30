@@ -16,7 +16,7 @@ import CheckBabies from './CheckBabies'
 import CheckGeeJoon from './CheckGJ';
 import BaccaratCount from './BaccaratCount';
 
-import Button from '@material-ui/core/Button';
+
 import '../index.css';
 
 
@@ -274,10 +274,6 @@ export default class Layout extends Component {
   render() {
     return (
       <div>
-        <div className='test'>
-          <Button variant='contained' color='primary' onClick={this.handleToggle}>Easy</Button>  
-        </div>
-        
         <Answer 
           cards={this.state.cards}
           show={this.state.show}
@@ -312,6 +308,10 @@ export default class Layout extends Component {
           handleHW={this.handleHW}
           hand={this.state.hand}
         />
+
+        <div className='test'>
+          <button onClick={this.handleToggle}>{this.state.cards ? 'Hide All' : 'Show All'}</button>  
+        </div>
 
         <Features 
           hand={this.state.hand}

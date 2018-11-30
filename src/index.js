@@ -11,33 +11,33 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const style = {
     style:{
-        fontWeight: 'bold', 
-        borderStyle: 'solid', 
+        border: 'white', 
+        color: '#314570',
         padding: '10px',
         marginLeft: '10px',
-        marginRight: '10px'  
-    },
-    rules:{
-        marginRight: 0,
-
+        marginRight: '10px',  
+        backgroundColor: 'white',
+        borderRadius: '5px',
+        textDecoration: 'none',
     }
-    
 }
 
 const style2 = {
-    fontWeight: 'bold', 
-    borderStyle: 'dashed', 
-    padding: '10px'
+    fontWeight: 'bold',  
+    padding: '10px',
+    backgroundColor: 'grey',
+    color: 'white',
+    borderRadius: '5px'
 }
 
 const Routing = (
     <BrowserRouter>
         <div>
             <div className='test navbar'>
-                <NavLink style={style.style} activeStyle={style2} to="/lotuslodi">Lotus/Lodi</NavLink>
-                <NavLink style={style.style} to="/palace">Palace</NavLink>
-                <NavLink style={style.style} to="/bike">Bike</NavLink>
-                <NavLink style={style.style} to="/rules">Rules</NavLink>
+                <NavLink style={style.style} activeStyle={style2} to="/lotuslodi">LOTUS - LODI</NavLink>
+                <NavLink style={style.style} activeStyle={style2} to="/palace">PALACE</NavLink>
+                <NavLink style={style.style} activeStyle={style2} to="/bike">BIKE</NavLink>
+                <NavLink style={style.style} activeStyle={style2} to="/rules">RULES</NavLink>
             </div>
             <Switch>
                 <Route exact path='/'component={FrontPage}/>

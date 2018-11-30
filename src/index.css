@@ -1,6 +1,9 @@
 body {
   background-color: #4d4d4d;
   font-family: 'Roboto', sans-serif;
+  /*margin and padding set to 0 so the navbar reaches top and sides of page.*/
+  margin: 0;
+  padding: 0;
 }
 
 
@@ -12,5 +15,5 @@ body {
 
 .navbar {
   background: #314570;
-  padding: none;
+  padding: 30px;
 }
