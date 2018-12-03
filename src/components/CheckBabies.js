@@ -17,8 +17,18 @@ const CheckBabies = (hand) => {
     let tempArr = '';
     let sortedArr = hand.slice().sort(Compare); //Compare() is imported.  slice used, else mutates hand
     
+    //geejoon
+    if (geeJoon.length === 1){
+      //2 babies
+      if(babies.length === 2){
+        let remainingTile = hand.filter((x) => x.rank !== 16 && (x.val !== 5 && x.val !== 4));
+        tempArr = [geeJoon[0], remainingTile[0], babies[0], babies[1]];
+        return tempArr; 
+      }
+    }
+
     //3 big
-    if (big.length === 3){
+    else if (big.length === 3){
       return sortedArr;
     }
 

@@ -235,6 +235,7 @@ export default class Layout extends Component {
   sook(hand){
     let low = BaccaratCount(hand[0], hand[1]);
     let high = BaccaratCount(hand[2], hand[3]);
+    console.log(low, high);
     if (low <= 3 || high <= 3){
       let combo1 = BaccaratCount(hand[0], hand[2]);
       let combo2 = BaccaratCount(hand[0], hand[3]);
