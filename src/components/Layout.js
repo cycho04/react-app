@@ -323,7 +323,7 @@ export default class Layout extends Component {
           hand={this.state.hand}
         />
 
-        <div className='test'>
+        <div className='center'>
           <button style={style.style} onClick={this.handleToggle}>{this.state.cards ? 'Hide All' : 'Show All'}</button>  
         </div>
 

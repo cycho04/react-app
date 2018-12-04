@@ -35,10 +35,14 @@ const Routing = (
     <BrowserRouter>
         <div>
             <div className='test navbar'>
-                <NavLink style={style.style} activeStyle={style2} to="/lotuslodi">LOTUS - LODI</NavLink>
-                <NavLink style={style.style} activeStyle={style2} to="/palace">PALACE</NavLink>
-                <NavLink style={style.style} activeStyle={style2} to="/bike">BIKE</NavLink>
-                <NavLink style={style.style} activeStyle={style2} to="/rules">RULES</NavLink>
+                <span className='left'>
+                    <NavLink style={style.style} activeStyle={style2} to="/lotuslodi">LOTUS - LODI</NavLink>
+                    <NavLink style={style.style} activeStyle={style2} to="/palace">PALACE</NavLink>
+                    <NavLink style={style.style} activeStyle={style2} to="/bike">BIKE</NavLink>   
+                </span>
+                <span className='right'>
+                    <NavLink style={style.style} activeStyle={style2} to="/rules">RULES</NavLink>    
+                </span>
             </div>
             <Switch>
                 <Route exact path='/'component={FrontPage}/>

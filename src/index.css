@@ -6,11 +6,17 @@ body {
   padding: 0;
 }
 
-
-
-.test{
+.center {
   padding: 20px 0;
   text-align: center;
+}
+
+.left{
+  text-align: left;
+}
+
+.right{
+  float: right;
 }
 
 .navbar {
