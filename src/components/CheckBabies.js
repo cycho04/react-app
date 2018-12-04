@@ -1,3 +1,5 @@
+//and Geejoon
+
 import Compare from './Compare';
 
 const CheckBabies = (hand) => {
@@ -8,19 +10,71 @@ const CheckBabies = (hand) => {
     let eleven = hand.filter((x) => x.val === 1);
     let nine = hand.filter((x) => x.val === 9);
     let anyFour = hand.filter((x) => x.val === 4);
+    let anySix = hand.filter((x) => x.val === 6);
 
     let geeJoon = hand.filter((x) => x.rank === 16);
     let number = hand.filter((x) => x.val >= 6 && x.val <= 9);
+    let number7_9 = hand.filter((x) => x.val >= 7 && x.val <= 9);
     let big = hand.filter((x) => x.realValue >= 10);
     let babies = hand.filter((x) => x.val >= 4 && x.val <= 5);
     
     let tempArr = '';
     let sortedArr = hand.slice().sort(Compare); //Compare() is imported.  slice used, else mutates hand
-    
+  
     //geejoon
     if (geeJoon.length === 1){
+      //goes with 3
+      //1 baby
+      if(babies.length === 1){
+        //9 and 11
+        if(nine.length === 1 && eleven.length === 1){
+          tempArr = [geeJoon[0], nine[0], eleven[0], babies[0]];
+          return tempArr;
+        }
+        //2 numbers
+        else if(number7_9.length === 2){
+          tempArr = [geeJoon[0], babies[0], number7_9[0], number7_9[1]];
+          return tempArr;
+        }
+        //1 number and 1 big
+        else if(number7_9.length === 1 && big.length === 1){
+          tempArr = [geeJoon[0], babies[0], number7_9[0], big[0]];
+          return tempArr;
+        }
+        // 1 number and 1 six
+        else if (number7_9.length === 1 && anySix.length === 1){
+          tempArr = [geeJoon[0], babies[0], number7_9[0], anySix[0]];
+          return tempArr;
+        }
+        // 1 six and 1 big
+        else if (anySix.length === 1 && big.length === 1){
+          tempArr = [geeJoon[0], babies[0], number7_9[0], number7_9[1]];
+          return tempArr;
+        }
+      }
+
+      //goes with six
+      //1 six...
+      if(anySix.length === 1){
+        //1 number, 1 big
+        if(number7_9.length === 1 && big.length === 1){
+          tempArr = [geeJoon[0], anySix[0], number7_9[0], big[0]];
+          return tempArr;
+        }
+        //2 numbers
+        else if(number7_9.length === 2){
+          tempArr = [geeJoon[0], anySix[0], number7_9[0], number7_9[1]];
+          return tempArr;
+        }
+      } 
+      //2 sixes
+      else if(anySix.length === 2){
+        let remainingTile = hand.filter((x) => x.rank !== 16 && x.val !== 6);
+        tempArr = [geeJoon[0], anySix[0], anySix[1], remainingTile[0]];
+        return tempArr;
+      }
       //2 babies
-      if(babies.length === 2){
+      else if(babies.length === 2){
         let remainingTile = hand.filter((x) => x.rank !== 16 && (x.val !== 5 && x.val !== 4));
         tempArr = [geeJoon[0], remainingTile[0], babies[0], babies[1]];
         return tempArr; 

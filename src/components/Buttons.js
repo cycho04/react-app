@@ -5,7 +5,8 @@ import Button from '@material-ui/core/Button';
 
 const style = {
     buttons: {
-        margin: '20px 10px'
+        margin: '20px 10px',
+        boxShadow: '2px 2px 2px 2px #444444'
     }
 }
 

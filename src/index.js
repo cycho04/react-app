@@ -19,6 +19,7 @@ const style = {
         backgroundColor: 'white',
         borderRadius: '5px',
         textDecoration: 'none',
+        boxShadow: '2px 2px 2px 2px #444444'
     }
 }
 

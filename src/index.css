@@ -16,4 +16,5 @@ body {
 .navbar {
   background: #314570;
   padding: 30px;
+  box-shadow: 5px 5px 5px 5px #444444;
 }

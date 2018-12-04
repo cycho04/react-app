@@ -273,6 +273,19 @@ export default class Layout extends Component {
 
 
   render() {
+    const style = {
+      style:{
+          border: 'white', 
+          color: '#314570',
+          padding: '10px',
+          marginLeft: '10px',
+          marginRight: '10px',  
+          backgroundColor: 'white',
+          borderRadius: '5px',
+          textDecoration: 'none',
+          boxShadow: '2px 2px 2px 2px #444444'
+      }
+    }
     return (
       <div>
         <Answer 
@@ -311,7 +324,7 @@ export default class Layout extends Component {
         />
 
         <div className='test'>
-          <button onClick={this.handleToggle}>{this.state.cards ? 'Hide All' : 'Show All'}</button>  
+          <button style={style.style} onClick={this.handleToggle}>{this.state.cards ? 'Hide All' : 'Show All'}</button>  
         </div>
 
         <Features 
