@@ -11,6 +11,7 @@ const style = {
         backgroundColor: 'darkgrey',
         borderRadius: '5px',
         textDecoration: 'none',
+        outline: 'none'
     }
 }
 

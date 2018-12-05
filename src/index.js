@@ -11,23 +11,24 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const style = {
     style:{
-        border: 'white', 
-        color: '#314570',
+        fontWeight: 'bold',
+        border: 'solid 3px',  
+        color: 'black',
         padding: '10px',
         marginLeft: '10px',
         marginRight: '10px',  
-        backgroundColor: 'white',
+        backgroundColor: 'gray',
         borderRadius: '5px',
         textDecoration: 'none',
-        boxShadow: '2px 2px 2px 2px #444444'
+        boxShadow: '2px 2px 2px 2px #324774'
+        
     }
 }
 
-const style2 = {
-    fontWeight: 'bold',  
+const style2 = {  
     padding: '10px',
-    backgroundColor: 'grey',
-    color: 'white',
+    backgroundColor: 'black',
+    color: 'grey',
     borderRadius: '5px'
 }
 

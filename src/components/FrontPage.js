@@ -1,10 +1,11 @@
 import React from 'react';
+import '../index.css';
 
+ 
 
 const FrontPage = () => {
     return(
-        <div>
-            <h1>Pick Your Casino</h1>  
+        <div className='front'>  
         </div>
     )
 }

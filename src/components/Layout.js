@@ -275,15 +275,16 @@ export default class Layout extends Component {
   render() {
     const style = {
       style:{
-          border: 'white', 
-          color: '#314570',
-          padding: '10px',
-          marginLeft: '10px',
-          marginRight: '10px',  
-          backgroundColor: 'white',
-          borderRadius: '5px',
-          textDecoration: 'none',
-          boxShadow: '2px 2px 2px 2px #444444'
+        fontWeight: 'bold', 
+        borderColor: 'white', 
+        color: 'white',
+        padding: '10px',  
+        backgroundColor: '#314570',
+        borderRadius: '5px',
+        textDecoration: 'none',
+        margin: '20px 10px',
+        boxShadow: '2px 2px 2px 2px #444444',
+        outline: 'none'
       }
     }
     return (
