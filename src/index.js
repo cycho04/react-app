@@ -6,6 +6,7 @@ import Layout from './components/Layout';
 import FrontPage from './components/FrontPage';
 import Rules from './components/Rules';
 import NotFound from  './components/NotFound';
+import NotFinished from './components/NotFinished';
 
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
@@ -13,7 +14,7 @@ const style = {
     style:{
         fontWeight: 'bold',
         border: 'solid 3px',  
-        color: 'black',
+        color: '#262626',
         padding: '10px',
         marginLeft: '10px',
         marginRight: '10px',  
@@ -27,7 +28,7 @@ const style = {
 
 const style2 = {  
     padding: '10px',
-    backgroundColor: 'black',
+    backgroundColor: '#262626',
     color: 'grey',
     borderRadius: '5px'
 }
@@ -48,6 +49,8 @@ const Routing = (
             <Switch>
                 <Route exact path='/'component={FrontPage}/>
                 <Route path='/lotuslodi'component={Layout}/>
+                <Route path='/palace'component={NotFinished}/>
+                <Route path='/bike'component={NotFinished}/>
                 <Route path='/rules' component={Rules}/>
                 <Route component={NotFound}/>    
             </Switch>    

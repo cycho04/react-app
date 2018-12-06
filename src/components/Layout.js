@@ -229,7 +229,7 @@ export default class Layout extends Component {
         }  
       }
     }
-    this.sook(this.state.hand);
+    // this.sook(this.state.hand);
   };
 
   sook(hand){

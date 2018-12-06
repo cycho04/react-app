@@ -10,7 +10,7 @@ const CheckBabies = (hand) => {
     let eleven = hand.filter((x) => x.val === 1);
     let nine = hand.filter((x) => x.val === 9);
     let anyFour = hand.filter((x) => x.val === 4);
-    let anySix = hand.filter((x) => x.val === 6);
+    let anySix = hand.filter((x) => x.val === 6 && x.rank !== 16);
 
     let geeJoon = hand.filter((x) => x.rank === 16);
     let number = hand.filter((x) => x.val >= 6 && x.val <= 9);
@@ -33,6 +33,7 @@ const CheckBabies = (hand) => {
         }
         //2 numbers
         else if(number7_9.length === 2){
+          
           tempArr = [geeJoon[0], babies[0], number7_9[0], number7_9[1]];
           return tempArr;
         }
@@ -55,7 +56,7 @@ const CheckBabies = (hand) => {
 
       //goes with six
       //1 six...
-      if(anySix.length === 1){
+      else if(anySix.length === 1){
         //1 number, 1 big
         if(number7_9.length === 1 && big.length === 1){
           tempArr = [geeJoon[0], anySix[0], number7_9[0], big[0]];
@@ -91,7 +92,7 @@ const CheckBabies = (hand) => {
       let remainingTile = hand.filter((x) => x.val !== 4 && x.val !== 5);
       //big tile
       if(remainingTile[0].val <= 2){
-        let tempArr = [lowFour[0], highFour[0], five[0], remainingTile[0]];
+        tempArr = [lowFour[0], highFour[0], five[0], remainingTile[0]];
         return tempArr;
       }
       //red 8 or 9
@@ -116,6 +117,7 @@ const CheckBabies = (hand) => {
       }
       // 11 and 9
       else if(eleven.length === 1 && nine.length === 1){   
+
         //5 and high 4
         if(five.length === 1 && anyFour.length === 1){
           tempArr = [five[0], nine[0], eleven[0], anyFour[0]];
