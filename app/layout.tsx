@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import Header from './_components/global/Header';
+import Footer from './_components/global/Footer';
  
 export const metadata: Metadata = {
   title: 'PG Tiles',
@@ -13,8 +15,10 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <div id="root">{children}</div>
+              <Header />
+              <main>{children}</main>
+              <Footer />
             </body>
         </html>
     )
-  }
+}
