@@ -4,7 +4,7 @@ export default function Header() {
     return (
         <>
             <Link href="/">Home</Link>
-            <Link href="/tutorial">Tutorial</Link>
+            <Link href="/how-to-play">Tutorial</Link>
         </>
     )
 }

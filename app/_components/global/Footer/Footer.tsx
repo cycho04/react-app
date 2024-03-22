@@ -1,5 +1,5 @@
 export default function Footer() {
     return (
-        <>CYC 2024</>
+        <span data-testid="footer">CYC 2024</span>
     )
 }
