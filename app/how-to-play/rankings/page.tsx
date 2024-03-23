@@ -1,21 +1,18 @@
-//not connected to project
-import Image from 'next/image';
-import { deck } from '../../_lib/deck';
+import { deck, TileInterface } from '../../_lib/deck';
+import TileRankCard from './_components/TileRankCard';
+import React from 'react';
 
 export default function Tiles() {
     return(
         <>
             {
-                deck.map(({name, description}: {name: string, description:string}) => {
+                deck.map(({name, description}: TileInterface, index) => {
                     return (
-                        <>
-                            <Image
-                                src={`/${name}.jpeg`}
-                                width={100}
-                                height={100}
-                                alt={description}
-                            />
-                        </>
+                        <TileRankCard
+                            key={`${name}-${index}`}
+                            name={name}
+                            description={description}
+                        />
                     )
                 })
             }

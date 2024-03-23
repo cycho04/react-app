@@ -116,6 +116,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "./dist/types/**/*.ts"
-  ],
+, "app/_components/global/__tests__/Footer.test.js"  ],
   "exclude": ["node_modules"]
 }

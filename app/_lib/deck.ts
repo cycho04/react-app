@@ -1,4 +1,4 @@
-interface Tile {
+export interface TileInterface {
 	name: string; // non-unique string that matches image name.
 	description: string; // Used for the Alt attribute for Images
 	value: number | number[]; // will use baccarat counting. GeeJoon can be either 3, 6.
@@ -6,14 +6,14 @@ interface Tile {
 	pairRank: number; // pair rank, also used as id when matching with pair tile
 }
 
-export const deck: Tile[] = [
+export const deck: TileInterface[] = [
 	//High Tiles
 	{ name: "geejoon3", description: "Gee Joon 3 dots", value: [3, 6], soloRank: 16, pairRank: 1 },
 	{ name: "geejoon6", description: "Gee Joon 6 dots", value: [3, 6], soloRank: 16, pairRank: 1 },
 	{ name: "teen", description: "Teen", value: 12, soloRank: 1, pairRank: 2 },
 	{ name: "teen", description: "Teen", value: 12, soloRank: 1, pairRank: 2 },
-	{ name: "dey", description: "Dey", value: 12, soloRank: 2, pairRank: 3 },
-	{ name: "dey", description: "Dey", value: 12, soloRank: 2, pairRank: 3 },
+	{ name: "day", description: "Day", value: 12, soloRank: 2, pairRank: 3 },
+	{ name: "day", description: "Day", value: 12, soloRank: 2, pairRank: 3 },
 	{ name: "high8", description: "High 8", value: 8, soloRank: 3, pairRank: 4 },
 	{ name: "high8", description: "High 8", value: 8, soloRank: 3, pairRank: 4 },
 	{ name: "high4", description: "High 4", value: 4, soloRank: 4, pairRank: 5 },
