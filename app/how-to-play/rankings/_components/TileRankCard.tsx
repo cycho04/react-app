@@ -15,7 +15,7 @@ export default function TileRankCard({name, description}: TileRankInterface){
                 height={100}
                 alt={`Pai Gow Tile: ${name}`}
             />
-            <h5>{description}</h5>
+            <h5 className="text-3xl font-bold underline">{description}</h5>
         </>   
     )
 }

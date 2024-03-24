@@ -1,7 +1,8 @@
+import './_styles/global.css';
 export default function Home() {
     return(
         <>
-            <h3>Welcomes users to the Pai Gow web app.</h3>
+            <h3 className="text-3xl font-bold underline">Welcomes users to the Pai Gow web app.</h3>
             <h3>Provides an overview of Pai Gow and the app's features.</h3>
         </>
     )
