@@ -1,7 +1,8 @@
 export default function Home() {
     return(
         <>
-            Main
+            <h3>Welcomes users to the Pai Gow web app.</h3>
+            <h3>Provides an overview of Pai Gow and the app's features.</h3>
         </>
     )
 }

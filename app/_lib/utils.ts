@@ -1,31 +1,3 @@
-//utility functions
-//generatesf new hand
-
-//
-//============================
-//copied from PG-tiles repo/github.
-//converting to React Project.
-//============================
-//
-
-
-// //disables hw btn
-// const disable = (btn) => {
-// 	btn.disabled = true;
-// }
-
-// // enables hw btn
-// const enable = (btn) => {
-// 	btn.disabled = false;
-// }
-
-// //needs work.
-// const exceptions = (hand) => {
-	
-// 	return false;
-// }
-
-
 // //geejoon in progess
 // function whichGJ(index) {
 // 	let baby = 0,
