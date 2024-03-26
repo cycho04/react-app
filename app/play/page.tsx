@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import {TileInterface} from '../_lib/deck';
 import { dealNewHand } from '../_lib/utils';
-import TileRankCard from 'app/how-to-play/rankings/_components/TileRankCard';
+import TileRankCard from '../how-to-play/rankings/_components/TileRankCard';
 
 export default function Page(){
 
