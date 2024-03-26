@@ -1,5 +1,5 @@
 export default function Page(){
     return (
-        <div>Tutorial</div>
+        <div className="text-3xl font-bold underline">Tutorial</div>
     )
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Header from './_components/Header';
 import Footer from './_components/Footer';
+import './_styles/global.css';
  
 export const metadata: Metadata = {
   title: 'PG Tiles',
