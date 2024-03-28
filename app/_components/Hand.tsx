@@ -2,16 +2,16 @@ import { useState } from 'react'
 import { TileInterface } from '../_lib/deck';
 import Tile from './Tile';
 
-const ACTIVE_BTN = 'hover:bg-blue-700';
-const INACTIVE_BTN = 'opacity-50 cursor-not-allowed';
+export const ACTIVE_BTN = 'hover:bg-blue-700';
+export const INACTIVE_BTN = 'opacity-50 cursor-not-allowed';
 
-export default function Hand({ hands, hand }: {hands:TileInterface[][], hand: TileInterface[]}) {
+export default function Hand({ hand }: {hand: TileInterface[]}) {
 
     const [selectedTilesIndex, setSelectedTilesIndex] = useState<number[]>([]);
 
     const onSetHandsClick = (): void => {
         selectedTilesIndex.forEach((tileIndex: number): void => {
-            console.log(hands[0][tileIndex]);
+            console.log(tileIndex);
         });
     }
 

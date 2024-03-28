@@ -19,7 +19,7 @@ export default function Hands({numOfHands}: {numOfHands: NumOfHands}){
                 {
                     hands.map((hand: TileInterface[], index: number) => {
                         return (
-                            <Hand key={`tile-${index}`} hands={hands} hand={hand}/>
+                            <Hand key={`tile-${index}`} hand={hand}/>
                         )
                     })
                 }
