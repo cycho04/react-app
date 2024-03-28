@@ -80,7 +80,7 @@ import {deck, TileInterface} from '../_lib/deck';
 // 	}
 // 	//need 3 babies rule
 // 
-export const dealNewHand = (numOfHands: number): TileInterface[][] => {
+export const createHands = (numOfHands: number): TileInterface[][] => {
     if (!numOfHands) return [];
     const hands: TileInterface[][] = [];
     const usedTiles: number[] = [];

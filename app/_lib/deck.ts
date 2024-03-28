@@ -6,6 +6,8 @@ export interface TileInterface {
 	pairRank: number; // pair rank, also used as id when matching with pair tile
 }
 
+export type NumOfHands = 1 | 2 | 3 | 4 | 5 | 6 |7 | 8;
+
 export const deck: TileInterface[] = [
 	//High Tiles
 	{ name: "geejoon3", description: "Gee Joon (Saam)", value: [3, 6], soloRank: 16, pairRank: 1 },

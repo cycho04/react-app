@@ -1,9 +1,9 @@
 
-import { dealNewHand } from '../utils';
+import { createHands } from '../utils';
 
 describe('Testing Util Functions', () => {
-    it('tests dealNewHand()', () => {
-        const newHands = dealNewHand(8);
+    it('tests createHands()', () => {
+        const newHands = createHands(8);
         expect(newHands).toHaveLength(8);
       
         newHands.forEach(hand => {
