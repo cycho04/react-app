@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import user from '@testing-library/user-event';
 import Footer from '../Footer';
 
 test('It shows footer and date', () => {

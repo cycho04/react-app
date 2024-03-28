@@ -1,21 +1,27 @@
+"use client"
 import Image from 'next/image';
 
 interface TileRankInterface{
-    key: string;
+    key?: string;
     name: string;
-    index: number;
     description: string,
-    selected: boolean;
-    handleTileClick: (index: number) => void
+    index?: number;
+    selected?: boolean;
+    handleTileClick?: (index: number) => void;
 }
 
-export default function TileRankCard({
+export default function Tile({
     name, description, index, selected, handleTileClick
 }: TileRankInterface){
+
+    const onClick = () => {
+        if (handleTileClick && index !== undefined) handleTileClick(index);
+    }
+
     return (
-        <div 
+        <div
             className={`${selected ? "bg-red-500" : ""} px-3`} 
-            onClick={() => handleTileClick(index)}>
+            onClick={onClick}>
             <Image
                 src={`/${name}.jpeg`}
                 width={100}

@@ -1,4 +1,4 @@
-import Hands from './_components/Hands';
+import Hands from '../_components/Hands';
 
 export default function Page(){
     return (

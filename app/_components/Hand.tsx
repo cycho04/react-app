@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { TileInterface } from '../../_lib/deck';
-import TileRankCard from '../../how-to-play/rankings/_components/TileRankCard';
+import { TileInterface } from '../_lib/deck';
+import Tile from './Tile';
 
 const ACTIVE_BTN = 'hover:bg-blue-700';
 const INACTIVE_BTN = 'opacity-50 cursor-not-allowed';
@@ -35,7 +35,7 @@ export default function Hand({ hands, hand }: {hands:TileInterface[][], hand: Ti
             {
                 hand.map(({name, description}: TileInterface, index: number) => {
                     return (
-                        <TileRankCard
+                        <Tile
                             key={`${name}-${index}`}
                             name={name}
                             index={index}

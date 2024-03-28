@@ -1,5 +1,5 @@
 import { deck, TileInterface } from '../../_lib/deck';
-import TileRankCard from './_components/TileRankCard';
+import Tile from '../../_components/Tile';
 
 export default function Tiles() {
     return(
@@ -7,7 +7,7 @@ export default function Tiles() {
             {
                 deck.map(({name, description}: TileInterface, index) => {
                     return (
-                        <TileRankCard
+                        <Tile
                             key={`${name}-${index}`}
                             name={name}
                             description={description}
