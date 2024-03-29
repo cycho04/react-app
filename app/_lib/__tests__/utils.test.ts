@@ -3,7 +3,8 @@ import {
     createHands,
     getBaccaratScore,
     solveTwoTiles,
-    determineHighLowHand
+    determineHighLowHand,
+    checkForPairs,
 } from '../utils';
 import { deck } from '../deck';
 
@@ -19,7 +20,7 @@ describe('Testing Util Functions', () => {
                 expect(tile).toHaveProperty("description");
                 expect(tile).toHaveProperty("value");
                 expect(tile).toHaveProperty("soloRank");
-                expect(tile).toHaveProperty("pairRank");
+                expect(tile).toHaveProperty("pairValue");
             })          
         });
     })
@@ -28,6 +29,15 @@ describe('Testing Util Functions', () => {
         const { high, low } = determineHighLowHand([deck[27], deck[24]], [deck[10], deck[31]]) // [low8slant, red9], [high10, white5]
         expect(high).toBe(7)
         expect(low).toBe(5)
+    })
+
+    it('tests checkForPairs()', () => {
+        for (let i = 0; i < 31; i+=2) {
+            const isPair = checkForPairs(deck[i], deck[i+1]);
+            expect(isPair).toBe(true);
+        }
+        const isNotPair = checkForPairs(deck[0], deck[31]) // [low8slant, red9], [high10, white5]
+        expect(isNotPair).toBe(false);
     })
 
     it('tests getBaccaratScore()', () => {

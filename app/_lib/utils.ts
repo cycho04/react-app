@@ -3,12 +3,24 @@ import {deck, TileInterface} from '../_lib/deck';
 export type NumOfHands = 1 | 2 | 3 | 4 | 5 | 6 |7 | 8;
 export type SingleTileValue = 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 type NumericTileSetValue = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-type TileSetValues = null | NumericTileSetValue | "gong" | "wong" | "pair";
+type Gong = 10;
+type Wong = 11;
+export type PairValues = 101 | 102 | 103 | 104 | 105 | 106 | 107 | 108 | 109 | 110 | 111 | 112 | 113 | 114 | 115 | 116;
+type TileSetValues = null | NumericTileSetValue | Gong | Wong | PairValues;
 
 export type HandValues = {
     high: TileSetValues,
     low: TileSetValues
 }
+
+/*
+    Solving Hand Algo
+    - Check for Pairs
+    - Nine, Gong, Wong w/ Teen/Dey
+    - Babies rule
+    - Sook
+    - High Low
+*/
 
 
 // //babies rule
@@ -61,7 +73,14 @@ export const determineHighLowHand = (hand1: TileInterface[], hand2: TileInterfac
 }
 
 export const solveTwoTiles = (tile1: TileInterface, tile2: TileInterface): TileSetValues => {
+    const isPair = checkForPairs(tile1, tile2);
+    if (isPair) return tile1.pairValue;
     return getBaccaratScore(tile1.value, tile2.value)
+}
+
+export const checkForPairs = (tile1: TileInterface, tile2: TileInterface): boolean => {
+    if (tile1.pairValue === tile2.pairValue) return true;
+    return false;
 }
 
 export const getBaccaratScore = (num1: SingleTileValue, num2: SingleTileValue): NumericTileSetValue => {
