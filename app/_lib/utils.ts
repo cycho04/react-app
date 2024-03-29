@@ -54,18 +54,10 @@ export type HandValues = {
 export const determineHighLowHand = (hand1: TileInterface[], hand2: TileInterface[]): HandValues => {
     const hand1Value = solveTwoTiles(hand1[0], hand1[1])!;
     const hand2Value = solveTwoTiles(hand2[0], hand2[1])!;
-    if ( hand1Value > hand2Value ) {
-        return {
-            high: hand1Value,
-            low: hand2Value
-        }
-    }
-    else {
-        return {
-            high: hand2Value,
-            low: hand1Value
-        }
-    }
+
+    const result = hand1Value > hand2Value ? { high: hand1Value, low: hand2Value } : { high: hand2Value, low: hand1Value };
+
+    return result;
 }
 
 export const solveTwoTiles = (tile1: TileInterface, tile2: TileInterface): TileSetValues => {
@@ -73,8 +65,6 @@ export const solveTwoTiles = (tile1: TileInterface, tile2: TileInterface): TileS
 }
 
 export const getBaccaratScore = (num1: SingleTileValue, num2: SingleTileValue): NumericTileSetValue => {
-    // TypeScript infers that the result will be of type number, (not NumericTileSetValue) 
-    // which is the union of all possible numeric values.
     return (num1 + num2) % 10 as NumericTileSetValue;
 }
 

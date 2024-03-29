@@ -2,7 +2,8 @@
 import { 
     createHands,
     getBaccaratScore,
-    solveTwoTiles
+    solveTwoTiles,
+    determineHighLowHand
 } from '../utils';
 import { deck } from '../deck';
 
@@ -23,13 +24,17 @@ describe('Testing Util Functions', () => {
         });
     })
 
+    it('tests determineHighLowHand()', () => {
+        const { high, low } = determineHighLowHand([deck[27], deck[24]], [deck[10], deck[31]]) // [low8slant, red9], [high10, white5]
+        expect(high).toBe(7)
+        expect(low).toBe(5)
+    })
+
     it('tests getBaccaratScore()', () => {
-        expect(getBaccaratScore(0, 0)).toBe(0);
-        expect(getBaccaratScore(0, 10)).toBe(0);
+        expect(getBaccaratScore(3, 10)).toBe(3);
+        expect(getBaccaratScore(12, 10)).toBe(2);
         expect(getBaccaratScore(10, 10)).toBe(0);
-        expect(getBaccaratScore(2, 10)).toBe(2);
-        expect(getBaccaratScore(2, 1)).toBe(3);
-        expect(getBaccaratScore(10, 10)).toBe(0);
+        expect(getBaccaratScore(4, 7)).toBe(1);
     })
 
     it('tests solveTwoTiles()', () => {
