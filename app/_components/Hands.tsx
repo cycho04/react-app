@@ -5,7 +5,11 @@ import { TileInterface, NumOfHands } from '../_lib/deck';
 import { createHands } from '../_lib/utils';
 import Hand from './Hand';
 
-export default function Hands({numOfHands}: {numOfHands: NumOfHands}){
+interface HandsProps {
+    numOfHands: NumOfHands
+}
+
+export default function Hands({numOfHands}: HandsProps) {
 
     const [hands, setHands] = useState<TileInterface[][]>([])
 
@@ -24,6 +28,11 @@ export default function Hands({numOfHands}: {numOfHands: NumOfHands}){
                     })
                 }
             </div>
+            <button 
+                className={`bg-blue-500 text-white font-bold py-2 px-4 rounded`} 
+                onClick={() => setHands(createHands(numOfHands))}>
+                    New Hand
+            </button>
         </>
     )
 }

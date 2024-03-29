@@ -1,7 +1,7 @@
 "use client"
 import Image from 'next/image';
 
-interface TileRankInterface{
+interface TileProps{
     key?: string;
     name: string;
     description: string,
@@ -12,7 +12,7 @@ interface TileRankInterface{
 
 export default function Tile({
     name, description, index, selected, handleTileClick
-}: TileRankInterface){
+}: TileProps){
 
     const onClick = () => {
         if (handleTileClick && index !== undefined) handleTileClick(index);

@@ -5,7 +5,11 @@ import Tile from './Tile';
 export const ACTIVE_BTN = 'hover:bg-blue-700';
 export const INACTIVE_BTN = 'opacity-50 cursor-not-allowed';
 
-export default function Hand({ hand }: {hand: TileInterface[]}) {
+interface HandProps {
+    hand: TileInterface[];
+}
+
+export default function Hand({ hand }: HandProps) {
 
     const [selectedTilesIndex, setSelectedTilesIndex] = useState<number[]>([]);
 
