@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { TileInterface } from '../_lib/deck';
+import { HandValues } from '../_lib/utils';
 import Tile from './Tile';
 
 export const ACTIVE_BTN = 'hover:bg-blue-700';
@@ -12,6 +13,22 @@ interface HandProps {
 export default function Hand({ hand }: HandProps) {
 
     const [selectedTilesIndex, setSelectedTilesIndex] = useState<number[]>([]);
+    const [handValue, setHandValue] = useState<HandValues>({
+        high: null,
+        low: null,
+    });
+
+    useEffect(() => {
+        if (selectedTilesIndex.length === 2){
+            const selectedHand: TileInterface[] = [];
+            const notSelectedHand : TileInterface[] = [];
+            hand.forEach((tile, index) => {
+                if (selectedTilesIndex.includes(index)) selectedHand.push(tile);
+                else notSelectedHand.push(tile)
+            })
+            console.log(selectedHand, notSelectedHand)
+        }
+    }, [selectedTilesIndex])
 
     const onSetHandsClick = (): void => {
         selectedTilesIndex.forEach((tileIndex: number): void => {
@@ -30,6 +47,7 @@ export default function Hand({ hand }: HandProps) {
 
     return (
         <>
+            {/* <p>{handValue}</p> */}
             <button 
                 className={`bg-blue-500 text-white font-bold py-2 px-4 rounded ${selectedTilesIndex.length === 2 ? ACTIVE_BTN : INACTIVE_BTN}`} 
                 disabled={selectedTilesIndex.length !== 2} 

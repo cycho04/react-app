@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 
-import { TileInterface, NumOfHands } from '../_lib/deck';
-import { createHands } from '../_lib/utils';
+import { TileInterface } from '../_lib/deck';
+import { createHands, NumOfHands } from '../_lib/utils';
 import Hand from './Hand';
 
 interface HandsProps {

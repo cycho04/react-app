@@ -7,10 +7,10 @@ const hand = deck.slice(0, 4);
 const setupForTiles = () => {
     render(<Hand hand={hand}/>);
     const imageElements = screen.getAllByRole('img');
-    const firstTile = imageElements[0].closest('div');
-    const secondTile = imageElements[1].closest('div');
-    const thirdTile = imageElements[2].closest('div');
-    const fourthTile = imageElements[3].closest('div');
+    const firstTile = imageElements[0].closest('div')!;
+    const secondTile = imageElements[1].closest('div')!;
+    const thirdTile = imageElements[2].closest('div')!;
+    const fourthTile = imageElements[3].closest('div')!;
     const h5Elements = screen.getAllByRole('heading', { level: 5 });
     const button = screen.getByRole('button');
     return {imageElements, firstTile, secondTile, thirdTile, fourthTile, h5Elements, button}
@@ -28,6 +28,7 @@ describe('Testing Play Screen', () => {
 
     it('clicks 1 tile. Show 1 selected and inactive button', async () => {
         const {firstTile, secondTile, thirdTile, fourthTile, button} = setupForTiles()
+        expect(firstTile).toBeInTheDocument();
         user.click(firstTile)
         await waitFor(() => {
             expect(firstTile).toHaveClass('bg-red-500');

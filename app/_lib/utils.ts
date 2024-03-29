@@ -1,5 +1,12 @@
 import {deck, TileInterface} from '../_lib/deck';
 
+export type NumOfHands = 1 | 2 | 3 | 4 | 5 | 6 |7 | 8;
+type TileSetValues = null | number | "gong" | "wong" | "pair";
+
+export type HandValues = {
+    high: TileSetValues,
+    low: TileSetValues
+}
 // //geejoon in progess
 // function whichGJ(index) {
 // 	let baby = 0,
@@ -80,6 +87,14 @@ import {deck, TileInterface} from '../_lib/deck';
 // 	}
 // 	//need 3 babies rule
 // 
+export const solveTwoTiles = (tile1: TileInterface, tile2: TileInterface): TileSetValues => {
+    return getBaccaratScore(tile1.value, tile2.value)
+}
+
+export const getBaccaratScore = (num1: number, num2: number): number => {
+    return (num1 + num2) % 10;
+}
+
 export const createHands = (numOfHands: number): TileInterface[][] => {
     if (!numOfHands) return [];
     const hands: TileInterface[][] = [];
