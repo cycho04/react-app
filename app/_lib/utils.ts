@@ -1,50 +1,14 @@
 import {deck, TileInterface} from '../_lib/deck';
 
 export type NumOfHands = 1 | 2 | 3 | 4 | 5 | 6 |7 | 8;
-type TileSetValues = null | number | "gong" | "wong" | "pair";
+export type SingleTileValue = 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+type NumericTileSetValue = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+type TileSetValues = null | NumericTileSetValue | "gong" | "wong" | "pair";
 
 export type HandValues = {
     high: TileSetValues,
     low: TileSetValues
 }
-// //geejoon in progess
-// function whichGJ(index) {
-// 	let baby = 0,
-// 		six = 0,
-// 		number = 0,
-// 		big = 0;
-// 		for (let i = 0; i < hand.length; i++){
-// 			if (hand[i].realValue === 4 || hand[i].realValue === 5){
-// 				baby += 1;
-// 			}
-// 			else if (hand[i].realValue === 6){
-// 				six += 1;
-// 			}
-// 			else if (hand[i].realValue >= 7 && hand[i].realValue <= 9){
-// 				number += 1;
-// 			}
-// 			else if (hand[i].realValue >= 10){
-// 				big += 1;
-// 			}
-// 		}
-// 		//
-// 		switch(big){
-// 			case 1:
-// 				//code
-// 				break;
-// 			case 2:
-// 				//nothing because it behaves the same as 3 big.
-// 			case 3:
-// 				hand[index].val = 6;
-// 				hand[index].realValue = 6;
-// 				break;
-// 			default:
-// 				console.log("nothing found");
-// 		}
-// 	return false;
-// }
-
-
 
 
 // //babies rule
@@ -87,12 +51,31 @@ export type HandValues = {
 // 	}
 // 	//need 3 babies rule
 // 
+export const determineHighLowHand = (hand1: TileInterface[], hand2: TileInterface[]): HandValues => {
+    const hand1Value = solveTwoTiles(hand1[0], hand1[1])!;
+    const hand2Value = solveTwoTiles(hand2[0], hand2[1])!;
+    if ( hand1Value > hand2Value ) {
+        return {
+            high: hand1Value,
+            low: hand2Value
+        }
+    }
+    else {
+        return {
+            high: hand2Value,
+            low: hand1Value
+        }
+    }
+}
+
 export const solveTwoTiles = (tile1: TileInterface, tile2: TileInterface): TileSetValues => {
     return getBaccaratScore(tile1.value, tile2.value)
 }
 
-export const getBaccaratScore = (num1: number, num2: number): number => {
-    return (num1 + num2) % 10;
+export const getBaccaratScore = (num1: SingleTileValue, num2: SingleTileValue): NumericTileSetValue => {
+    // TypeScript infers that the result will be of type number, (not NumericTileSetValue) 
+    // which is the union of all possible numeric values.
+    return (num1 + num2) % 10 as NumericTileSetValue;
 }
 
 export const createHands = (numOfHands: number): TileInterface[][] => {

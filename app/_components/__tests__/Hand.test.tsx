@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { deck } from '../../_lib/deck';
-import Hand, { ACTIVE_BTN, INACTIVE_BTN } from '../Hand';
+import Hand from '../Hand';
+import { ACTIVE_BTN, INACTIVE_BTN } from '../../_styles/constants';
 
 const hand = deck.slice(0, 4);
 const setupForTiles = () => {

@@ -1,7 +1,9 @@
+import { SingleTileValue } from './utils';
+
 export interface TileInterface {
 	name: string; // non-unique string that matches image name.
 	description: string; // Used for the Alt attribute for Images
-	value: number; // will use baccarat counting. GeeJoon can be either 3, 6.
+	value: SingleTileValue; // will use baccarat counting. GeeJoon can be either 3, 6.
 	soloRank: number; // individual tile rank
 	pairRank: number; // pair rank, also used as id when matching with pair tile
 }
