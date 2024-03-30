@@ -13,7 +13,7 @@ export default function Hand({ hand }: HandProps) {
     const [selectedTilesIndex, setSelectedTilesIndex] = useState<number[]>([]);
     const [handValue, setHandValue] = useState<HandValues>({
         high: null,
-        low: null,
+        low: null
     });
 
     useEffect(() => {
@@ -28,6 +28,13 @@ export default function Hand({ hand }: HandProps) {
             setHandValue({high, low})
         }
     }, [selectedTilesIndex])
+
+    useEffect(() => {
+        if (hand.length === 4) { // Reset
+            setSelectedTilesIndex([]);
+            setHandValue({ high: null, low: null })
+        }
+    }, [hand])
 
     const onSetHandsClick = (): void => {
         selectedTilesIndex.forEach((tileIndex: number): void => {
