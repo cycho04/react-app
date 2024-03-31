@@ -5,6 +5,7 @@ import {
     solveTwoTiles,
     determineHighLowHand,
     checkForPairs,
+    checkForGongOrWong,
 } from '../utils';
 import { deck } from '../deck';
 
@@ -36,8 +37,17 @@ describe('Testing Util Functions', () => {
             const isPair = checkForPairs(deck[i], deck[i+1]);
             expect(isPair).toBe(true);
         }
-        const isNotPair = checkForPairs(deck[0], deck[31]) // [low8slant, red9], [high10, white5]
+        const isNotPair = checkForPairs(deck[0], deck[31])
         expect(isNotPair).toBe(false);
+    })
+
+    it('tests checkForPairs()', () => {
+        const isGong = checkForGongOrWong(deck[4], deck[6]);
+        const isWong = checkForGongOrWong(deck[3], deck[25]);
+        const notGongOrWong = checkForGongOrWong(deck[5], deck[13]);
+        expect(isGong).toBe(true);
+        expect(isWong).toBe(true);
+        expect(notGongOrWong).toBe(false);
     })
 
     it('tests getBaccaratScore()', () => {
