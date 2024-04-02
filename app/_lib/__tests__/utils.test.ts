@@ -6,6 +6,7 @@ import {
     determineHighLowHand,
     checkForPairs,
     checkForGongOrWong,
+    showUserFriendlyValue,
 } from '../utils';
 import { deck } from '../deck';
 
@@ -64,5 +65,18 @@ describe('Testing Util Functions', () => {
         expect(solveTwoTiles(deck[10], deck[18])).toBe(0); // high10 + low10
         expect(solveTwoTiles(deck[4], deck[16])).toBe(3); // day + eleven
         expect(solveTwoTiles(deck[9], deck[14])).toBe(8); // high4 + low4
+    })
+
+    it('test showUserFriendlyValue()', () => {
+        const nullValue = showUserFriendlyValue(null);
+        const gongValue = showUserFriendlyValue(20);
+        const wongValue = showUserFriendlyValue(21);
+        expect(nullValue).toBe("");
+        expect(gongValue).toBe("Gong");
+        expect(wongValue).toBe("Wong");
+        for (let i = 101; i <= 116; i ++) {
+            const value = showUserFriendlyValue(i)
+            expect(value).toBe('Pair')
+        }
     })
 })
