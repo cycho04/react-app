@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { TileInterface } from '../_lib/deck';
-import { HandValues, determineHighLowHand } from '../_lib/utils';
+import { HandValues, determineHighLowHand, showUserFriendlyValue } from '../_lib/utils';
 import { ACTIVE_BTN, INACTIVE_BTN } from '../_styles/constants';
 import Tile from './Tile';
 
@@ -54,8 +54,8 @@ export default function Hand({ hand }: HandProps) {
     return (
         <>
             <div>
-                <p>high: {handValue.high}</p>
-                <p>low: {handValue.low}</p>
+                <p>high: {showUserFriendlyValue(handValue.high)}</p>
+                <p>low: {showUserFriendlyValue(handValue.low)}</p>
             </div>
             <button 
                 className={`bg-blue-500 text-white font-bold py-2 px-4 rounded ${selectedTilesIndex.length === 2 ? ACTIVE_BTN : INACTIVE_BTN}`} 

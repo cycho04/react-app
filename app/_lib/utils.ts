@@ -110,6 +110,14 @@ export type HandValues = {
 //     }
 // }
 
+export const showUserFriendlyValue = (value: number | null): string | NumericTileSetValue => {
+    if (value === null) return "";
+    if (value === 20) return "Gong";
+    else if (value === 21) return "Wong";
+    else if (value > 100) return "Pair";
+    else return value as NumericTileSetValue;
+}
+
 export const determineHighLowHand = (hand1: TileInterface[], hand2: TileInterface[]): HandValues => {
     const hand1Value = solveTwoTiles(hand1[0], hand1[1])!;
     const hand2Value = solveTwoTiles(hand2[0], hand2[1])!;
