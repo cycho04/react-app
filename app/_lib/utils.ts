@@ -13,10 +13,6 @@ export type HandValues = {
     low: TileSetValues
 }
 
-interface TeenDayMatch {
-    [key: number]: number;
-}
-
 /*
     Solving Hand Algo
     - Check for Pairs
@@ -78,49 +74,68 @@ interface TeenDayMatch {
     - High Low
 */
 export const solveFourTiles = (hand: TileInterface[]): HandValues => {
-    const foundSpecialHand = checkForSpecialHand(hand);
-    const highLow = setHighLow(hand);
-    if (foundSpecialHand) {
-        return determineHighLowHand([foundSpecialHand[0], foundSpecialHand[1]],[foundSpecialHand[2], foundSpecialHand[3]]); 
-    }
-    else {
-        return determineHighLowHand([highLow[0], highLow[1]],[highLow[2], highLow[3]]);
-    };
+    const pair = checkForPairsInFourTiles(hand);
+    const nineGongWong = checkForNineGongWong(hand);
+    const nonSpecialNumericHand = setHighLow(hand);
+    if (pair) return pair;
+    else if (nineGongWong) return nineGongWong;
+    else return nonSpecialNumericHand;
 }
 
-const checkForSpecialHand = (hand: TileInterface[]): TileInterface[] | false => {
+const checkForPairsInFourTiles = (hand: TileInterface[]): HandValues | false => {
     const hand1: TileInterface[] = [];
     const hand2: TileInterface[] = [];
-    let index: TeenDayMatch = {};
+    let foundPair = false;
 
-    hand.forEach(({value, pairValue}: TileInterface, i: number) => {
+    for(let i = 0; i < hand.length; i++){
+        if (foundPair) break;
         for(let ii = i + 1; ii < hand.length; ii++){
-            if (pairValue === hand[ii].pairValue) {
+            if (hand[i].pairValue === hand[ii].pairValue) {
                 hand1.push(hand[i], hand[ii]);
+                foundPair = true;
                 break;
             }
         }
-        index[value] = i;
-    })
-    if (index[12] !== undefined && !hand1.length){
-        if (index[7] !== undefined) hand1.push(hand[index[12]], hand[index[7]]);
-        else if (index[8] !== undefined) hand1.push(hand[index[12]], hand[index[8]]);
-        else if (index[9] !== undefined) hand1.push(hand[index[12]], hand[index[9]]);
-        else return false;
     }
-    if (hand1.length){
+    if (foundPair){
         hand.forEach((tile: TileInterface) => {
             if (hand1.indexOf(tile) === -1) hand2.push(tile);
         })
-        return [...hand1, ...hand2];
+        return determineHighLowHand(hand1, hand2);
     }
     else return false;
 }
 
-export const setHighLow = (hand: TileInterface[]): TileInterface[] => {
+const checkForNineGongWong = (hand: TileInterface[]): HandValues | false => {
+    const hand1: TileInterface[] = [];
+    const hand2: TileInterface[] = [];
+    const teenDayMatch = [7,8,9]
+    let foundNineGongWong = false;
+    let index: Record<number, number> = {};
+
+    hand.forEach(({value}: TileInterface, i: number) => {
+        if (teenDayMatch.includes(value)) foundNineGongWong = true;
+        index[value] = i;
+    })
+    if (index[12] !== undefined && foundNineGongWong){
+        if (index[7] !== undefined) {
+            hand1.push(hand[index[12]], hand[index[7]]);
+        }
+        else if (index[8] !== undefined) hand1.push(hand[index[12]], hand[index[8]]);
+        else if (index[9] !== undefined) hand1.push(hand[index[12]], hand[index[9]]);
+
+        hand.forEach((tile: TileInterface) => {
+            if (hand1.indexOf(tile) === -1) hand2.push(tile);
+        })
+        return determineHighLowHand(hand1, hand2);
+    }
+    else return false;
+}
+
+export const setHighLow = (hand: TileInterface[]): HandValues => {
     const handCopy = [...hand];
     const sorted = handCopy.sort((firstTile: TileInterface, secondTile: TileInterface) => firstTile.value - secondTile.value);
-    return [sorted[0], sorted[3], sorted[1], sorted[2]];
+    return determineHighLowHand([sorted[0], sorted[3]], [sorted[1], sorted[2]]);
 }
 
 export const showUserFriendlyValue = (value: number | null): string | NumericTileSetValue => {
