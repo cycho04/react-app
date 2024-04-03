@@ -77,16 +77,14 @@ interface TeenDayMatch {
     - Sook
     - High Low
 */
-export const solveFourTiles = (hand: TileInterface[]): TileInterface[] => {
+export const solveFourTiles = (hand: TileInterface[]): HandValues => {
     const foundSpecialHand = checkForSpecialHand(hand);
     const highLow = setHighLow(hand);
     if (foundSpecialHand) {
-        console.log('pair', foundSpecialHand)
-        return foundSpecialHand;
+        return determineHighLowHand([foundSpecialHand[0], foundSpecialHand[1]],[foundSpecialHand[2], foundSpecialHand[3]]); 
     }
     else {
-        console.log('highLow', highLow)
-        return highLow;
+        return determineHighLowHand([highLow[0], highLow[1]],[highLow[2], highLow[3]]);
     };
 }
 

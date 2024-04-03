@@ -11,6 +11,10 @@ interface HandProps {
 export default function Hand({ hand }: HandProps) {
 
     const [selectedTilesIndex, setSelectedTilesIndex] = useState<number[]>([]);
+    const [houseway, setHouseway] = useState<HandValues>({
+        high: null,
+        low: null
+    })
     const [handValue, setHandValue] = useState<HandValues>({
         high: null,
         low: null
@@ -34,7 +38,8 @@ export default function Hand({ hand }: HandProps) {
 
     useEffect(() => {
         if (hand.length === 4) { // Reset
-            solveFourTiles(hand);
+            const { high, low } = solveFourTiles(hand);
+            setHouseway({high, low})
             setSelectedTilesIndex([]);
             setHandValue({ high: null, low: null })
         }
@@ -58,8 +63,8 @@ export default function Hand({ hand }: HandProps) {
     return (
         <>
             <div>
-                <p>high: {showUserFriendlyValue(handValue.high)}</p>
                 <p>low: {showUserFriendlyValue(handValue.low)}</p>
+                <p>high: {showUserFriendlyValue(handValue.high)}</p>
             </div>
             <button 
                 className={`bg-blue-500 text-white font-bold py-2 px-4 rounded ${selectedTilesIndex.length === 2 ? ACTIVE_BTN : INACTIVE_BTN}`} 
@@ -67,6 +72,7 @@ export default function Hand({ hand }: HandProps) {
                 onClick={onSetHandsClick}>
                     Set Hand
             </button>
+
             {
                 hand.map(({name, description}: TileInterface, index: number) => {
                     return (
@@ -81,6 +87,11 @@ export default function Hand({ hand }: HandProps) {
                     )
                 })
             }
+            <div>
+                <p>House Way</p>
+                <p>low: {showUserFriendlyValue(houseway.low)}</p>
+                <p>high: {showUserFriendlyValue(houseway.high)}</p>
+            </div>
         </>
     )
 }
