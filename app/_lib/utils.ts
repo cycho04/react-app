@@ -13,6 +13,10 @@ export type HandValues = {
     low: TileSetValues
 }
 
+interface TeenDayMatch {
+    [key: number]: number;
+}
+
 /*
     Solving Hand Algo
     - Check for Pairs
@@ -67,48 +71,59 @@ export type HandValues = {
 /*
     Solving Hand Algo
     - Check for Pairs
+        - split?
     - Nine, Gong, Wong w/ Teen/Dey
     - Babies rule
     - Sook
     - High Low
 */
-// const solveFourTiles = (hand: TileInterface[]): TileInterface[] => {
-//     const foundPair = checkForPairsIn4Tiles(hand);
-//     if (foundPair){
+export const solveFourTiles = (hand: TileInterface[]): TileInterface[] => {
+    const foundSpecialHand = checkForSpecialHand(hand);
+    const highLow = setHighLow(hand);
+    if (foundSpecialHand) {
+        console.log('pair', foundSpecialHand)
+        return foundSpecialHand;
+    }
+    else {
+        console.log('highLow', highLow)
+        return highLow;
+    };
+}
 
-//     }
-//     else {
+const checkForSpecialHand = (hand: TileInterface[]): TileInterface[] | false => {
+    const hand1: TileInterface[] = [];
+    const hand2: TileInterface[] = [];
+    let index: TeenDayMatch = {};
 
-//     }
-// }
+    hand.forEach(({value, pairValue}: TileInterface, i: number) => {
+        for(let ii = i + 1; ii < hand.length; ii++){
+            if (pairValue === hand[ii].pairValue) {
+                hand1.push(hand[i], hand[ii]);
+                break;
+            }
+        }
+        index[value] = i;
+    })
+    if (index[12] !== undefined && !hand1.length){
+        if (index[7] !== undefined) hand1.push(hand[index[12]], hand[index[7]]);
+        else if (index[8] !== undefined) hand1.push(hand[index[12]], hand[index[8]]);
+        else if (index[9] !== undefined) hand1.push(hand[index[12]], hand[index[9]]);
+        else return false;
+    }
+    if (hand1.length){
+        hand.forEach((tile: TileInterface) => {
+            if (hand1.indexOf(tile) === -1) hand2.push(tile);
+        })
+        return [...hand1, ...hand2];
+    }
+    else return false;
+}
 
-// const checkForPairsIn4Tiles = (hand: TileInterface[]): TileInterface[] | false => {
-//     const hand1: TileInterface[] = [];
-//     const hand2: TileInterface[] = [];
-//     let foundPair = false;
-
-//     for(let i = 0; i < hand.length; i++){
-//         for(let ii = i + 1; ii < hand.length; ii++){
-//             if (hand[i].pairValue === hand[ii].pairValue) {
-//                 hand1.push(hand[i], hand[ii]);
-//                 foundPair = true;
-//                 break;
-//             }
-//         }
-//         if (foundPair) break;
-//     }
-//     if (foundPair){
-//         hand.forEach((tile: TileInterface) => {
-//             if (!hand1.indexOf(tile)) {
-//                 hand2.push(tile);
-//             }
-//         })
-//         return [...hand1, ...hand2]
-//     }
-//     else {
-//         return false;
-//     }
-// }
+export const setHighLow = (hand: TileInterface[]): TileInterface[] => {
+    const handCopy = [...hand];
+    const sorted = handCopy.sort((firstTile: TileInterface, secondTile: TileInterface) => firstTile.value - secondTile.value);
+    return sorted;
+}
 
 export const showUserFriendlyValue = (value: number | null): string | NumericTileSetValue => {
     if (value === null) return "";

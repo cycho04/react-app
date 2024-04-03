@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { TileInterface } from '../_lib/deck';
-import { HandValues, determineHighLowHand, showUserFriendlyValue } from '../_lib/utils';
+import { HandValues, determineHighLowHand, showUserFriendlyValue, solveFourTiles } from '../_lib/utils';
 import { ACTIVE_BTN, INACTIVE_BTN } from '../_styles/constants';
 import Tile from './Tile';
 
@@ -27,10 +27,14 @@ export default function Hand({ hand }: HandProps) {
             const { high, low } = determineHighLowHand(selectedHand, notSelectedHand);
             setHandValue({high, low})
         }
+        else {
+            setHandValue({ high: null, low: null })
+        }
     }, [selectedTilesIndex])
 
     useEffect(() => {
         if (hand.length === 4) { // Reset
+            solveFourTiles(hand);
             setSelectedTilesIndex([]);
             setHandValue({ high: null, low: null })
         }
