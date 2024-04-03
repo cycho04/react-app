@@ -76,10 +76,11 @@ export type HandValues = {
 export const solveFourTiles = (hand: TileInterface[]): HandValues => {
     const pair = checkForPairsInFourTiles(hand);
     const nineGongWong = checkForNineGongWong(hand);
-    const nonSpecialNumericHand = setHighLow(hand);
+    const babies = checkForBabies(hand);
     if (pair) return pair;
     else if (nineGongWong) return nineGongWong;
-    else return nonSpecialNumericHand;
+    else if (babies) return babies;
+    else return setHighLow(hand);
 }
 
 const checkForPairsInFourTiles = (hand: TileInterface[]): HandValues | false => {
@@ -132,9 +133,33 @@ const checkForNineGongWong = (hand: TileInterface[]): HandValues | false => {
     else return false;
 }
 
+export const checkForBabies = (hand: TileInterface[]): HandValues | false => {
+    const sorted = setFromLowToHigh(hand);
+    let numOfBabies = 0;
+    sorted.forEach(({value}: TileInterface) => {
+        if (value < 6) numOfBabies += 1;
+    })
+    if (numOfBabies === 2){
+        if (sorted[2].value >= 10 && sorted[3].value >= 10){
+            return determineHighLowHand([sorted[0], sorted[3]], [sorted[1], sorted[2]]);
+        }
+        else return determineHighLowHand([sorted[0], sorted[1]], [sorted[2], sorted[3]]);
+    }
+    else if (numOfBabies === 3) return determineHighLowHand([sorted[0], sorted[1]], [sorted[2], sorted[3]]);
+    else return false;
+}
+
+const setFromLowToHigh = (hand: TileInterface[]) => {
+    const handCopy = [...hand]; 
+    const sorted = handCopy.sort((firstTile: TileInterface, secondTile: TileInterface) => {
+        if (firstTile.value === secondTile.value) return firstTile.rankValue - secondTile.rankValue;
+        return firstTile.value - secondTile.value;
+    });
+    return sorted;
+}
+
 export const setHighLow = (hand: TileInterface[]): HandValues => {
-    const handCopy = [...hand];
-    const sorted = handCopy.sort((firstTile: TileInterface, secondTile: TileInterface) => firstTile.value - secondTile.value);
+    const sorted = setFromLowToHigh(hand);
     return determineHighLowHand([sorted[0], sorted[3]], [sorted[1], sorted[2]]);
 }
 
