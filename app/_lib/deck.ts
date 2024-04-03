@@ -6,18 +6,19 @@ export interface TileInterface {
 	value: SingleTileValue; // will use baccarat counting. GeeJoon can be either 3, 6.
 	rankValue: number; // individual tile rank / highest[16....1] lowest
 	pairValue: PairValues; // pair rank, also used as id when matching with pair tile
+	pairSplit?: [number, number] // the minimum low and high hand values that pair will split for [low, high]
 }
 
 export const deck: TileInterface[] = [
 	//High Tiles
-	{ name: "geejoon3", description: "Gee Joon (Saam)", value: 3, rankValue: 1, pairValue: 116 }, // 0
-	{ name: "geejoon6", description: "Gee Joon (Luk)", value: 3, rankValue: 1, pairValue: 116 }, // 1
-	{ name: "teen", description: "Teen", value: 12, rankValue: 16, pairValue: 115 }, // 2
-	{ name: "teen", description: "Teen", value: 12, rankValue: 16, pairValue: 115 }, // 3
-	{ name: "day", description: "Day", value: 12, rankValue: 15, pairValue: 114 }, // 4
-	{ name: "day", description: "Day", value: 12, rankValue: 15, pairValue: 114 }, // 5
-	{ name: "high8", description: "High 8 (Yun)", value: 8, rankValue: 14, pairValue: 113 }, // 6
-	{ name: "high8", description: "High 8 (Yun)", value: 8, rankValue: 14, pairValue: 113 }, // 7
+	{ name: "geejoon3", description: "Gee Joon (Saam)", value: 3, rankValue: 1, pairValue: 116, pairSplit: [7, 9] }, // 0
+	{ name: "geejoon6", description: "Gee Joon (Luk)", value: 3, rankValue: 1, pairValue: 116, pairSplit: [7, 9] }, // 1
+	{ name: "teen", description: "Teen", value: 12, rankValue: 16, pairValue: 115, pairSplit: [6, 8] }, // 2
+	{ name: "teen", description: "Teen", value: 12, rankValue: 16, pairValue: 115, pairSplit: [6, 8] }, // 3
+	{ name: "day", description: "Day", value: 12, rankValue: 15, pairValue: 114, pairSplit: [6, 8] }, // 4
+	{ name: "day", description: "Day", value: 12, rankValue: 15, pairValue: 114, pairSplit: [6, 8] }, // 5
+	{ name: "high8", description: "High 8 (Yun)", value: 8, rankValue: 14, pairValue: 113, pairSplit: [7, 9] }, // 6
+	{ name: "high8", description: "High 8 (Yun)", value: 8, rankValue: 14, pairValue: 113, pairSplit: [7, 9] }, // 7
 	{ name: "high4", description: "High 4 (Gor)", value: 4, rankValue: 13, pairValue: 112 }, // 8
 	{ name: "high4", description: "High 4 (Gor)", value: 4, rankValue: 13, pairValue: 112 }, // 9
 	//Symmetric tiles
@@ -32,17 +33,26 @@ export const deck: TileInterface[] = [
 	{ name: "eleven", description: "11 (Foo)", value: 11, rankValue: 9, pairValue: 108 }, // 17
 	{ name: "low10", description: "Low 10 (Ping)", value: 10, rankValue: 8, pairValue: 107 }, // 18
 	{ name: "low10", description: "Low 10 (Ping)", value: 10, rankValue: 8, pairValue: 107 }, // 19
-	{ name: "high7", description: "High 7 (Tit)", value: 7, rankValue: 7, pairValue: 106 }, // 20
-	{ name: "high7", description: "High 7 (Tit)", value: 7, rankValue: 7, pairValue: 106 }, // 21
+	{ name: "high7", description: "High 7 (Tit)", value: 7, rankValue: 7, pairValue: 106, pairSplit: [7, 7] }, // 20
+	{ name: "high7", description: "High 7 (Tit)", value: 7, rankValue: 7, pairValue: 106, pairSplit: [7, 7] }, // 21
 	{ name: "low6", description: "Low 6 (Look)", value: 6, rankValue: 6, pairValue: 105 }, // 22
 	{ name: "low6", description: "Low 6 (Look)", value: 6, rankValue: 6, pairValue: 105 }, // 23
 	//Mixed pairs
 	{ name: "red9", description: "Red 9 (Gow)", value: 9, rankValue: 5, pairValue: 104 }, // 24
 	{ name: "white9", description: "White 9 (Gow)", value: 9, rankValue: 5, pairValue: 104 }, // 25
-	{ name: "low8", description: "Low 8 symmetric (Bot)", value: 8, rankValue: 4, pairValue: 103 }, // 26
-	{ name: "low8slant", description: "Low 8 slant (Bot)", value: 8, rankValue: 4, pairValue: 103 }, // 27
-	{ name: "red7", description: "Low 7 red (Chut)", value: 7, rankValue: 3, pairValue: 102 }, // 28
-	{ name: "white7", description: "Low 7 white (Chut)", value: 7, rankValue: 3, pairValue: 102 }, // 29
+	{ name: "low8", description: "Low 8 symmetric (Bot)", value: 8, rankValue: 4, pairValue: 103, pairSplit: [7, 9] }, // 26
+	{ name: "low8slant", description: "Low 8 slant (Bot)", value: 8, rankValue: 4, pairValue: 103, pairSplit: [7, 9] }, // 27
+	{ name: "red7", description: "Low 7 red (Chut)", value: 7, rankValue: 3, pairValue: 102, pairSplit: [7, 7] }, // 28
+	{ name: "white7", description: "Low 7 white (Chut)", value: 7, rankValue: 3, pairValue: 102, pairSplit: [7, 7] }, // 29
 	{ name: "red5", description: "Red 5 (Ng)", value: 5, rankValue: 2, pairValue: 101 }, // 30
 	{ name: "white5", description: "White 5 (Ng)", value: 5, rankValue: 2, pairValue: 101 } // 31
 ]
+
+
+/* 
+
+not working hands:
+gj, low10, h6, l7
+h6, 9, 10, gj
+gj, 4, 5, 6
+*/

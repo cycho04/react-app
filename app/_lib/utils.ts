@@ -75,12 +75,15 @@ export type HandValues = {
 */
 export const solveFourTiles = (hand: TileInterface[]): HandValues => {
     const pair = checkForPairsInFourTiles(hand);
-    const nineGongWong = checkForNineGongWong(hand);
-    const babies = checkForBabies(hand);
     if (pair) return pair;
-    else if (nineGongWong) return nineGongWong;
-    else if (babies) return babies;
-    else return setHighLow(hand);
+
+    const nineGongWong = checkForNineGongWong(hand);
+    if (nineGongWong) return nineGongWong;
+
+    const babies = checkForBabies(hand);
+    if (babies) return babies;
+
+    return setHighLow(hand);
 }
 
 const checkForPairsInFourTiles = (hand: TileInterface[]): HandValues | false => {
@@ -200,6 +203,9 @@ export const checkForGongOrWong = (tile1: TileInterface, tile2: TileInterface): 
 }
 
 export const getBaccaratScore = (num1: SingleTileValue, num2: SingleTileValue): NumericTileSetValue => {
+    const worksWithSix = [7, 8, 9, 10, 11, 12];
+    if (num1 === 3 && worksWithSix.includes(num2)) return (6 + num2) % 10 as NumericTileSetValue;
+    else if (num2 === 3 && worksWithSix.includes(num1)) return (num1 + 6) % 10 as NumericTileSetValue;
     return (num1 + num2) % 10 as NumericTileSetValue;
 }
 
