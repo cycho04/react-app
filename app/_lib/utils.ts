@@ -87,15 +87,15 @@ export const solveFourTiles = (hand: TileInterface[]): HandValues => {
 }
 
 const checkForPairsInFourTiles = (hand: TileInterface[]): HandValues | false => {
-    const hand1: TileInterface[] = [];
-    const hand2: TileInterface[] = [];
+    const pair: TileInterface[] = [];
+    const nonPair: TileInterface[] = [];
     let foundPair = false;
 
     for(let i = 0; i < hand.length; i++){
         if (foundPair) break;
         for(let ii = i + 1; ii < hand.length; ii++){
             if (hand[i].pairValue === hand[ii].pairValue) {
-                hand1.push(hand[i], hand[ii]);
+                pair.push(hand[i], hand[ii]);
                 foundPair = true;
                 break;
             }
@@ -103,9 +103,18 @@ const checkForPairsInFourTiles = (hand: TileInterface[]): HandValues | false => 
     }
     if (foundPair){
         hand.forEach((tile: TileInterface) => {
-            if (hand1.indexOf(tile) === -1) hand2.push(tile);
+            if (pair.indexOf(tile) === -1) nonPair.push(tile);
         })
-        return determineHighLowHand(hand1, hand2);
+
+        // Check for split
+        const { pairSplit } = pair[0];
+        const { high: splitHigh, low: splitLow } = determineHighLowHand([pair[0], nonPair[0]], [pair[1], nonPair[1]]);
+        const { high: pairedHigh, low: pairedLow } = determineHighLowHand(pair, nonPair);
+        const passSplitRequirements = pairSplit && (splitLow! >= pairSplit.low! && splitHigh! >= pairSplit.high!);
+        const notPairPair = pairedHigh! < 101 || pairedLow! < 101;
+        if (passSplitRequirements && notPairPair) return { high: splitHigh, low: splitLow };
+        // No split
+        return { high: pairedHigh, low: pairedLow };
     }
     else return false;
 }
