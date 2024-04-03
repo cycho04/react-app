@@ -120,7 +120,7 @@ const checkForSpecialHand = (hand: TileInterface[]): TileInterface[] | false => 
 export const setHighLow = (hand: TileInterface[]): TileInterface[] => {
     const handCopy = [...hand];
     const sorted = handCopy.sort((firstTile: TileInterface, secondTile: TileInterface) => firstTile.value - secondTile.value);
-    return sorted;
+    return [sorted[0], sorted[3], sorted[1], sorted[2]];
 }
 
 export const showUserFriendlyValue = (value: number | null): string | NumericTileSetValue => {
