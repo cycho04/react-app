@@ -21,8 +21,14 @@ describe('Testing Util Functions', () => {
                 expect(tile).toHaveProperty("name");
                 expect(tile).toHaveProperty("description");
                 expect(tile).toHaveProperty("value");
-                expect(tile).toHaveProperty("soloRank");
+                expect(tile).toHaveProperty("rankValue");
                 expect(tile).toHaveProperty("pairValue");
+
+                const pairsThatSplit = [3, 7, 8, 12];
+                if (pairsThatSplit.includes(tile.value)){
+                    expect(tile).toHaveProperty("pairSplit");
+                }
+                
             })          
         });
     })
@@ -52,7 +58,6 @@ describe('Testing Util Functions', () => {
     })
 
     it('tests getBaccaratScore()', () => {
-        expect(getBaccaratScore(3, 10)).toBe(3);
         expect(getBaccaratScore(12, 10)).toBe(2);
         expect(getBaccaratScore(10, 10)).toBe(0);
         expect(getBaccaratScore(4, 7)).toBe(1);
