@@ -83,6 +83,9 @@ export const solveFourTiles = (hand: TileInterface[]): HandValues => {
     const babies = checkForBabies(hand);
     if (babies) return babies;
 
+    const bigThree = checkForBigThree(hand)
+    if (bigThree) return bigThree;
+
     return setHighLow(hand);
 }
 
@@ -131,12 +134,9 @@ const checkForNineGongWong = (hand: TileInterface[]): HandValues | false => {
         index[value] = i;
     })
     if (index[12] !== undefined && foundNineGongWong){
-        if (index[7] !== undefined) {
-            hand1.push(hand[index[12]], hand[index[7]]);
-        }
-        else if (index[8] !== undefined) hand1.push(hand[index[12]], hand[index[8]]);
-        else if (index[9] !== undefined) hand1.push(hand[index[12]], hand[index[9]]);
-
+        teenDayMatch.forEach((match: number) => {
+            if (index[match] !== undefined && !hand1.length) hand1.push(hand[index[12]], hand[index[match]]);
+        })
         hand.forEach((tile: TileInterface) => {
             if (hand1.indexOf(tile) === -1) hand2.push(tile);
         })
@@ -148,16 +148,42 @@ const checkForNineGongWong = (hand: TileInterface[]): HandValues | false => {
 export const checkForBabies = (hand: TileInterface[]): HandValues | false => {
     const sorted = setFromLowToHigh(hand);
     let numOfBabies = 0;
+    let foundGeeJoonIndex: number | null = null;
+    let foundSixIndex: number | null = null;
     sorted.forEach(({value}: TileInterface) => {
         if (value < 6) numOfBabies += 1;
     })
-    if (numOfBabies === 2){
+    if (numOfBabies === 1 && foundGeeJoonIndex !== null && foundSixIndex !== null) {
+        const hand1 = [sorted[foundGeeJoonIndex], sorted[foundSixIndex]]
+        const hand2: TileInterface[] = [];
+        sorted.forEach((tile: TileInterface) => {
+            if (hand1.indexOf(tile) === -1) hand2.push(tile);
+        })
+        return determineHighLowHand(hand1, hand2);
+    }
+    else if (numOfBabies === 2){
         if (sorted[2].value >= 10 && sorted[3].value >= 10){
             return determineHighLowHand([sorted[0], sorted[3]], [sorted[1], sorted[2]]);
         }
         else return determineHighLowHand([sorted[0], sorted[1]], [sorted[2], sorted[3]]);
     }
-    else if (numOfBabies === 3) return determineHighLowHand([sorted[0], sorted[1]], [sorted[2], sorted[3]]);
+    else if (numOfBabies === 3) {
+        if (sorted[0].value === 3) return determineHighLowHand([sorted[1], sorted[2]], [sorted[0], sorted[3]]);
+        return determineHighLowHand([sorted[0], sorted[1]], [sorted[2], sorted[3]]);
+    }
+    else return false;
+}
+
+const checkForBigThree = (hand: TileInterface[]): HandValues | false => {
+    const sorted = setFromLowToHigh(hand);
+    let numOfBig = 0;
+    sorted.forEach(({value}: TileInterface) => {
+        if (value >= 10) numOfBig += 1;
+    })
+    
+    if (numOfBig === 3) {
+        return determineHighLowHand([sorted[0], sorted[1]], [sorted[2], sorted[3]]);
+    }
     else return false;
 }
 

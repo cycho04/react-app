@@ -58,4 +58,5 @@ not working hands:
 gj, low10, h6, l7
 h6, 9, 10, gj
 gj, 4, 5, 6
+gj, 4, 9, 11
 */
