@@ -114,8 +114,8 @@ const checkForPairsInFourTiles = (hand: TileInterface[]): HandValues | false => 
         const { high: splitHigh, low: splitLow } = determineHighLowHand([pair[0], nonPair[0]], [pair[1], nonPair[1]]);
         const { high: pairedHigh, low: pairedLow } = determineHighLowHand(pair, nonPair);
         const passSplitRequirements = pairSplit && (splitLow! >= pairSplit.low! && splitHigh! >= pairSplit.high!);
-        const notPairPair = pairedHigh! < 101 || pairedLow! < 101;
-        if (passSplitRequirements && notPairPair) return { high: splitHigh, low: splitLow };
+        const isPairPair = pairedHigh! > 100 && pairedLow! > 100;
+        if (passSplitRequirements && !isPairPair) return { high: splitHigh, low: splitLow };
         // No split
         return { high: pairedHigh, low: pairedLow };
     }
@@ -150,7 +150,10 @@ export const checkForBabies = (hand: TileInterface[]): HandValues | false => {
     let numOfBabies = 0;
     let foundGeeJoonIndex: number | null = null;
     let foundSixIndex: number | null = null;
-    sorted.forEach(({value}: TileInterface) => {
+    sorted.forEach(({value}: TileInterface, index: number) => {
+        if (value === 3) foundGeeJoonIndex = index;
+        else if (value === 6) foundSixIndex = index;
+
         if (value < 6) numOfBabies += 1;
     })
     if (numOfBabies === 1 && foundGeeJoonIndex !== null && foundSixIndex !== null) {
@@ -163,6 +166,7 @@ export const checkForBabies = (hand: TileInterface[]): HandValues | false => {
     }
     else if (numOfBabies === 2){
         if (sorted[2].value >= 10 && sorted[3].value >= 10){
+            if (foundGeeJoonIndex !== null) return determineHighLowHand([sorted[0], sorted[2]], [sorted[1], sorted[3]]);
             return determineHighLowHand([sorted[0], sorted[3]], [sorted[1], sorted[2]]);
         }
         else return determineHighLowHand([sorted[0], sorted[1]], [sorted[2], sorted[3]]);
